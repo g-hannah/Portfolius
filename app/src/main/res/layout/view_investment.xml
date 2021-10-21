@@ -6,77 +6,96 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <com.ghannah.GraphCanvas
-        android:id="@+id/investmentGraphCanvas"
-        android:layout_width="314dp"
-        android:layout_height="154dp"
-        android:layout_marginBottom="41dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="409dp"
-        android:layout_height="502dp"
+        android:layout_width="361dp"
+        android:layout_height="338dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="206dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="69dp"
-            android:orientation="horizontal">
+            android:layout_height="68dp"
+            android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/textView4"
-                android:layout_width="149dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Amount"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/editTextNumberDecimal"
+                android:id="@+id/textViewInvestmentAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:text="0.734739273"
-                android:textSize="20sp" />
+                android:fontFamily="@string/textViewFont"
+                android:text="Amount"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewInvestmentAmountValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@string/textViewFont" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="73dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textViewInvestmentCost"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cost (inc fee)"
-                android:textSize="24sp" />
+                android:fontFamily="@string/textViewFont"
+                android:text="Cost" />
 
-            <EditText
-                android:id="@+id/editTextNumberDecimal2"
+            <TextView
+                android:id="@+id/textViewInvestmentCostValue"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:text="£2024.57"
-                android:textSize="20sp" />
+                android:fontFamily="@string/textViewFont" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewInvestmentRateThen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@string/textViewFont"
+                android:text="Rate" />
+
+            <TextView
+                android:id="@+id/textViewInvestmentRateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@string/textViewFont" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewInvestmentNet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@string/textViewFont"
+                android:text="Net" />
+
+            <TextView
+                android:id="@+id/textViewInvestmentNetValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@string/textViewFont" />
         </LinearLayout>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

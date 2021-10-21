@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <currency name="Bitcoin">BTC</currency>
+    <currency name="Ethereum">ETH</currency>
+    <currency name="Solana">SOL</currency>
+</resources>

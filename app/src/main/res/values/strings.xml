@@ -10,6 +10,9 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="create_new_portfolio_activity">New Portfolio</string>
     <string name="create_new_portfolio">Create</string>
-    <string name="PORTFOLIO_EXISTS_MESSAGE">Portfolio with this name already exists</string>
+    <string name="SELECTED_PORTFOLIO">SELECTED_PORTFOLIO</string>
+    <string name="SELECTED_INVESTMENT">SELECTED_INVESTMENT</string>
+    <string name="PORTFOLIO_EXISTS_MESSAGE">A portfolio with this name already exists</string>
     <string name="CREATED_PORTFOLIO_MESSAGE">Successfully created portfolio %s</string>
+    <string name="textViewFont">sans-serif-black</string>
 </resources>
