@@ -43,6 +43,17 @@ class Investment
 
     public fun net() : Double
     {
+        /*
+         * Retrieve current rate for the currency
+         * that this investment was for.
+         *
+         * e.g.,
+         *
+         * val r : Double = RatesManager.getRateForCurrency(this.currency)
+         *
+         * val currentValue : Double = r * this.amount
+         * return currentValue - this.cost
+         */
         return 0.0
     }
 }

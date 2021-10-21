@@ -2,7 +2,10 @@ package com.ghannah
 
 import kotlinx.coroutines.sync.Mutex
 
-class ExchangeRatesManager()
+/**
+ * A singleton object for dealing with exchange rates
+ */
+object ExchangeRatesManager
 {
     //private val rates : MutableMap<String,Rate?> = mutableMapOf<String,Rate?>()
     private val historic_rates : MutableMap<String,MutableList<Rate>?> = mutableMapOf<String,MutableList<Rate>?>()
@@ -48,7 +51,7 @@ class ExchangeRatesManager()
          */
     }
 
-    public fun getRate(currency : String) : Rate?
+    fun getRateForCurrency(currency : String) : Rate?
     {
         val list : MutableList<Rate>? = historic_rates.get(currency)
 

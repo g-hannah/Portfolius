@@ -23,8 +23,16 @@ class Portfolio(var _name : String)
     {
         var res : Double = 0.0
 
-       // for (investment in investments)
-           // res += investment.net()
+        for (key in mapInvestments.keys)
+        {
+            val list : MutableList<Investment>? = mapInvestments.get(key)
+
+            if (null == list)
+                continue
+
+            for (investment in list)
+                res += investment.net()
+        }
 
         return res
 
