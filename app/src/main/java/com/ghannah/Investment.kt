@@ -13,35 +13,35 @@ class Investment
 //    private val amount : Double = _amount
 //    private val rate : Double = _rate
 //    private val fee : Double = _fee
+    private var currency : String
     private var amount by Delegates.notNull<Double>()
     private var rate by Delegates.notNull<Double>()
     private var fee by Delegates.notNull<Double>()
-    private lateinit var id : String
 
-    constructor(_amount : Double, _rate : Double, _fee : Double)
+    constructor(_currency : String, _amount : Double, _rate : Double, _fee : Double)
     {
+        this.currency = _currency
         this.amount = _amount
         this.rate = _rate
         this.fee = _fee
-        this.id = _generateId()
     }
 
-    private fun _generateId() : String
+    fun getCurrency() : String
     {
-        return System.currentTimeMillis().toString()
+        return this.currency
     }
 
-    public fun getId() : String
-    {
-        return this.id
-    }
-
-    public fun getEffectiveRate() : Double
+    fun getEffectiveRate() : Double
     {
         return ((this.amount * this.rate) + this.fee) / this.amount
     }
 
-    public fun net() : Double
+    fun getCost() : Double
+    {
+        return ((this.amount * this.rate) + this.fee)
+    }
+
+    fun net() : Double
     {
         /*
          * Retrieve current rate for the currency
@@ -54,6 +54,14 @@ class Investment
          * val currentValue : Double = r * this.amount
          * return currentValue - this.cost
          */
+        val currentRate : Rate? = ExchangeRatesManager.getRateForCurrency("BTC")
+
+        if (null != currentRate)
+        {
+            val currentWorth : Double = this.amount * currentRate.getValue()
+            return currentWorth - getCost()
+        }
+
         return 0.0
     }
 }

@@ -39,7 +39,7 @@ class AddInvestmentActivity : AppCompatActivity()
                     return@setOnClickListener
                 }
 
-                portfolio.addInvestment(currency, Investment(amount, rate, fee))
+                portfolio.addInvestment(Investment("BTC", amount, rate, fee))
                 Toast.makeText(this, "Successfully added new investment", Toast.LENGTH_LONG)
             }
 

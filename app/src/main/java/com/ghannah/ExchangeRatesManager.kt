@@ -8,11 +8,16 @@ import kotlinx.coroutines.sync.Mutex
 object ExchangeRatesManager
 {
     //private val rates : MutableMap<String,Rate?> = mutableMapOf<String,Rate?>()
-    private val historic_rates : MutableMap<String,MutableList<Rate>?> = mutableMapOf<String,MutableList<Rate>?>()
+    private var historic_rates : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
 
     private fun writeRatesToDisk()
     {
 
+    }
+
+    fun setRatesData(map : MutableMap<String,MutableList<Rate>>)
+    {
+        this.historic_rates = map
     }
 
     public fun start()

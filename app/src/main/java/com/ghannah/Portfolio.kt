@@ -7,7 +7,7 @@ package com.ghannah
  */
 class Portfolio(var _name : String)
 {
-    private var name : String = _name
+    private val name : String = _name
     private val created = System.currentTimeMillis()
 
     /*
@@ -19,13 +19,17 @@ class Portfolio(var _name : String)
      */
     private val mapInvestments : MutableMap<String,MutableList<Investment>> = mutableMapOf<String,MutableList<Investment>>()
 
-    public fun net() : Double
+    /**
+     * Return the net gain / loss
+     * over the whole portfolio
+     */
+    fun net() : Double
     {
         var res : Double = 0.0
 
         for (key in mapInvestments.keys)
         {
-            val list : MutableList<Investment>? = mapInvestments.get(key)
+            val list : MutableList<Investment>? = mapInvestments[key]
 
             if (null == list)
                 continue
@@ -38,35 +42,46 @@ class Portfolio(var _name : String)
 
     }
 
-    public fun addInvestment(currency : String, inv : Investment)
+    fun addInvestment(inv : Investment)
     {
-        var list : MutableList<Investment>? = mapInvestments.get(currency)
+        var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
 
         if (null == list)
             list = mutableListOf<Investment>()
 
         list.add(inv)
-        mapInvestments.put(currency, list)
+        mapInvestments.put(inv.getCurrency(), list)
     }
 
-    public fun getInvestmentById(id : String) : Investment?
+    fun removeInvestment(inv : Investment)
     {
-        for (currency in mapInvestments.keys)
+        var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
+
+        if (null != list)
         {
-            val list : MutableList<Investment>? = mapInvestments.get(currency)
-
-            if (null == list)
-                continue
-
-            for (investment in list)
-            {
-                if (investment.getId().equals(id))
-                    return investment
-            }
+            list.remove(inv)
+            mapInvestments.put(inv.getCurrency(), list)
         }
-
-        return null
     }
+
+//    public fun getInvestmentById(id : String) : Investment?
+//    {
+//        for (currency in mapInvestments.keys)
+//        {
+//            val list : MutableList<Investment>? = mapInvestments.get(currency)
+//
+//            if (null == list)
+//                continue
+//
+//            for (investment in list)
+//            {
+//                if (investment.getId().equals(id))
+//                    return investment
+//            }
+//        }
+//
+//        return null
+//    }
 
     override fun toString(): String
     {

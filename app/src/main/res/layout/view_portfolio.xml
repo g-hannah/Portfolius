@@ -17,4 +17,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical" />
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewPortfolioName"
+        android:layout_width="228dp"
+        android:layout_height="46dp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="52dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

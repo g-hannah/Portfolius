@@ -42,7 +42,7 @@
 
             <Button
                 android:id="@+id/buttonCreatePortfolio"
-                android:layout_width="158dp"
+                android:layout_width="423dp"
                 android:layout_height="68dp"
                 android:layout_weight="1"
                 android:background="#32074C"
@@ -65,7 +65,7 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.435" />
+            app:layout_constraintVertical_bias="0.562" />
 
         <LinearLayout
             android:id="@+id/linearLayoutNetChanges"
@@ -77,7 +77,7 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.515">
+            app:layout_constraintVertical_bias="0.637">
 
             <TextView
                 android:id="@+id/textViewNetChange"
@@ -87,7 +87,7 @@
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="@color/colorPositive"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewNetPercentageChange"
@@ -97,31 +97,31 @@
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textColor="@color/colorPositive"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <SurfaceView
             android:id="@+id/surfaceView2"
-            android:layout_width="409dp"
-            android:layout_height="203dp"
+            android:layout_width="404dp"
+            android:layout_height="177dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.142"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.139" />
+            app:layout_constraintVertical_bias="0.203" />
 
         <ScrollView
             android:id="@+id/scrollViewPortfolios"
-            android:layout_width="410dp"
-            android:layout_height="213dp"
+            android:layout_width="412dp"
+            android:layout_height="108dp"
             android:background="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.428"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.851" >
+            app:layout_constraintVertical_bias="0.851">
 
             <LinearLayout
                 android:id="@+id/linearLayoutPortfolios"
@@ -129,6 +129,54 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"></LinearLayout>
         </ScrollView>
+
+        <TextView
+            android:id="@+id/textViewPortfolioListLabel"
+            android:layout_width="409dp"
+            android:layout_height="24dp"
+            android:fontFamily="serif"
+            android:text="Your portfolios"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.715" />
+
+        <TextView
+            android:id="@+id/textViewTotalNetLabel"
+            android:layout_width="56dp"
+            android:layout_height="30dp"
+            android:fontFamily="serif"
+            android:text="Net"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.064"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.56" />
+
+        <TextView
+            android:id="@+id/textViewApplicationTitle"
+            android:layout_width="377dp"
+            android:layout_height="33dp"
+            android:fontFamily="serif"
+            android:text="PORTFOLIUS"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.098" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

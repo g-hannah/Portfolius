@@ -125,6 +125,25 @@ object PortfolioManager : AppCompatActivity()
         return true
     }
 
+    fun removePortfolioByName(name : String)
+    {
+        var toRemove : Portfolio? = null
+
+        for (portfolio in portfolios)
+        {
+            if (portfolio._name.equals(name))
+            {
+                toRemove = portfolio
+                break
+            }
+        }
+
+        if (null != toRemove)
+        {
+            portfolios.remove(toRemove)
+        }
+    }
+
     /**
      * Search for and return a portfolio with
      * the given name if it exists.

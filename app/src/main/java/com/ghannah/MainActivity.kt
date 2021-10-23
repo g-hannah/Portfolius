@@ -30,7 +30,16 @@ class MainActivity : AppCompatActivity() {
             Read local user data into memory (portfolios)
          */
 
+        /*
+         * Read the portfolios into memory.
+         *
+         * Pass the path to our application's
+         * private data directory.
+         */
         PortfolioManager.read(filesDir.toString())
+
+
+        savedInstanceState?.putString(applicationContext.resources.getString(R.string.SELECTED_PORTFOLIO), "MyCryptoPortfolio")
 
 
         setContentView(R.layout.activity_main)
@@ -57,16 +66,31 @@ class MainActivity : AppCompatActivity() {
 
         val ll : LinearLayout = findViewById(R.id.linearLayoutPortfolios)
         val portfolios : MutableList<Portfolio> = PortfolioManager.getPortfolios()
+//        val mapButtons : MutableMap<String,Portfolio> = mutableMapOf<String,Portfolio>()
+
         for (portfolio in portfolios)
         {
+//            var btn = Button(this)
             var tv = TextView(this)
+//            var lil = LinearLayout(this)
+//
+//            lil.addView(tv)
+//            lil.addView(btn)
+//
+//            mapButtons.put(btn.toString(), portfolio)
+
+//            btn.setOnClickListener {
+//                val p : Portfolio? = mapButtons.get(it.toString())
+//                if (null != p)
+//                {
+//                    PortfoliusState.setCurrentlySelectedPortfolio(p)
+//                    System.out.println("DEBUG: set selected portfolio: " + p.toString())
+//                }
+//            }
+
             tv.setText(portfolio.toString())
             ll.addView(tv)
         }
-
-//        button.setOnClickListener {
-//            startActivity(Intent(this, CreatePortfolio::class.java))
-//        }
 
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
