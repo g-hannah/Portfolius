@@ -14,9 +14,9 @@ class Investment
 //    private val rate : Double = _rate
 //    private val fee : Double = _fee
     private var currency : String
-    private var amount by Delegates.notNull<Double>()
-    private var rate by Delegates.notNull<Double>()
-    private var fee by Delegates.notNull<Double>()
+    private var amount : Double
+    private var rate : Double
+    private var fee : Double
 
     constructor(_currency : String, _amount : Double, _rate : Double, _fee : Double)
     {
@@ -29,6 +29,21 @@ class Investment
     fun getCurrency() : String
     {
         return this.currency
+    }
+
+    fun getAmount() : Double
+    {
+        return this.amount
+    }
+
+    fun getRate() : Double
+    {
+        return this.rate
+    }
+
+    fun getFee() : Double
+    {
+        return this.fee
     }
 
     fun getEffectiveRate() : Double
