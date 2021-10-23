@@ -28,7 +28,7 @@ class AddInvestmentActivity : AppCompatActivity()
 
                 // get selected currency
 
-                val currency : String = "ETH"
+                val currency : String = "BTC"
                 val amount : Double? = findViewById<EditText>(R.id.editTextAmountCurrency).text.toString().toDoubleOrNull()
                 val rate : Double? = findViewById<EditText>(R.id.editTextRateCurrency).text.toString().toDoubleOrNull()
                 val fee : Double? = findViewById<EditText>(R.id.editTextFeeCurrency).text.toString().toDoubleOrNull()
@@ -39,7 +39,7 @@ class AddInvestmentActivity : AppCompatActivity()
                     return@setOnClickListener
                 }
 
-                portfolio.addInvestment(Investment("BTC", amount, rate, fee))
+                portfolio.addInvestment(Investment(currency, amount, rate, fee))
                 Toast.makeText(this, "Successfully added new investment", Toast.LENGTH_LONG)
             }
 
