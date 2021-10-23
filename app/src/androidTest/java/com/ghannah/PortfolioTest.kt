@@ -1,6 +1,7 @@
 package com.ghannah
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import org.junit.After
 import org.junit.runner.RunWith
@@ -21,7 +22,9 @@ class PortfolioTest
 //    {
 //        val portfolio1 = Portfolio(PORTFOLIO_NAME)
 //        val portfolio2 = Portfolio(PORTFOLIO_NAME)
+//        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 //
+//        PortfolioManager.read(appContext.dataDir.toString())
 //        PortfolioManager.addPortfolio(portfolio1)
 //        PortfolioManager.addPortfolio(portfolio2)
 //    }
