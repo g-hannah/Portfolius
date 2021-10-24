@@ -26,6 +26,13 @@
             android:label="SomeLabel"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".ViewPortfolioActivity"
+            android:exported="true"
+            android:label="SomeLabel"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
