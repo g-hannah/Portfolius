@@ -1,12 +1,11 @@
 package com.ghannah
 
-import android.os.Environment
-import android.content.Context
-import android.widget.Toast
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 
 import java.io.File
 import java.io.FileOutputStream
@@ -14,11 +13,12 @@ import java.io.FileOutputStream
 /**
  * Singleton class to manage portfolios
  */
+@RequiresApi(Build.VERSION_CODES.N)
 object PortfolioManager : AppCompatActivity()
 {
     private val portfolios = mutableListOf<Portfolio>()
     private val mapper = jacksonObjectMapper()
-    private lateinit var DATA_DIRECTORY : String
+    private var DATA_DIRECTORY : String = InstrumentationRegistry.getInstrumentation().targetContext.dataDir.toString()
 
     /*
      * In a typical class (not a singleton in Kotlin), to have
@@ -32,16 +32,11 @@ object PortfolioManager : AppCompatActivity()
      */
     private const val DATA_FILE_NAME : String = "portfolios.json"
 
-    /**
-     * Unfortunately, we cannot call read() from here because
-     * we need to access filesDir, but a NullPointerException
-     * error is thrown as this is unfortunately not defined
-     * within this singleton (despite the fact we inherited
-     * AppCompatActivity so that it's visible).
-     */
     init
     {
+        read()
     }
+
 
     /**
      * Private method to read into memory the
@@ -51,10 +46,9 @@ object PortfolioManager : AppCompatActivity()
      * data directory is passed as an argument,
      * which is then stored in an instance var.
      */
-    fun read(dir : String)
+    private fun read()
     {
-        this.DATA_DIRECTORY = dir
-        val pathToFile = "$dir/$DATA_FILE_NAME"
+        val pathToFile = "$DATA_DIRECTORY/$DATA_FILE_NAME"
         val file = File(pathToFile)
 
         /*
@@ -122,6 +116,19 @@ object PortfolioManager : AppCompatActivity()
         return this.net() - this.netForRate(rate)
     }
 
+    fun getPercentageDifferenceBetweenValues(value1 : Double, value2 : Double) : Double
+    {
+        if (0.0 == value2)
+            return 0.0
+
+        var ret : Double = (value1 / value2) - 1.0
+
+        if (0.0 > value2)
+            ret *= -1.0
+
+        return ret * 100.0
+    }
+
     /**
      * Calculate the percentage difference between
      * the current net value and the net value given
@@ -129,10 +136,18 @@ object PortfolioManager : AppCompatActivity()
      */
     fun getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(rate : Rate) : Double
     {
-        val currentNet : Double = this.net()
-        val netForRate : Double = this.netForRate(rate)
+        var currentNet : Double = this.net()
+        var netForRate : Double = this.netForRate(rate)
 
-        return currentNet / netForRate * 100.0
+        return getPercentageDifferenceBetweenValues(currentNet, netForRate)
+    }
+
+    fun getPercentageDifferenceInNetValuesForRates(rate1 : Rate, rate2 : Rate) : Double
+    {
+        val net1 : Double = this.netForRate(rate1)
+        val net2 : Double = this.netForRate(rate2)
+
+        return getPercentageDifferenceBetweenValues(net1, net2)
     }
 
     /**
