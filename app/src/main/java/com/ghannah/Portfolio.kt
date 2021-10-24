@@ -19,6 +19,11 @@ class Portfolio(var _name : String)
      */
     private val mapInvestments : MutableMap<String,MutableList<Investment>> = mutableMapOf<String,MutableList<Investment>>()
 
+    fun getInvestments() : MutableMap<String,MutableList<Investment>>
+    {
+        return this.mapInvestments
+    }
+
     /**
      * Return the net gain / loss
      * over the whole portfolio
@@ -42,6 +47,37 @@ class Portfolio(var _name : String)
 
     }
 
+    /**
+     * Calculate the net change in
+     * value for a given rate
+     */
+    fun netForRate(rate : Rate) : Double
+    {
+        var ret : Double = 0.0
+
+        for (key in mapInvestments.keys)
+        {
+            val list : MutableList<Investment> = mapInvestments[key] ?: continue
+
+            for (investment in list)
+            {
+                val amount : Double = investment.getAmount()
+                val fee : Double = investment.getFee()
+                val rateThen : Double = investment.getRate()
+                val paid : Double = amount * rateThen + fee
+                val valueNow : Double = amount * rate.getValue()
+
+                ret += (valueNow - paid)
+            }
+        }
+
+        return ret
+    }
+
+    /**
+     * Add an investment to list of investments
+     * for a given cryptocurrency
+     */
     fun addInvestment(inv : Investment)
     {
         var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
@@ -53,6 +89,10 @@ class Portfolio(var _name : String)
         mapInvestments.put(inv.getCurrency(), list)
     }
 
+    /**
+     * Remove an investment from the list
+     * of investments for a given cryptocurrency
+     */
     fun removeInvestment(inv : Investment)
     {
         var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
