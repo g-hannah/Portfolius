@@ -20,6 +20,18 @@ object ExchangeRatesManager
         this.historic_rates = map
     }
 
+    fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate
+    {
+        val list : MutableList<Rate>? = historic_rates[currency]
+        if (null == list)
+            return Rate(1711.96, System.currentTimeMillis())
+
+        if (0 < list.size)
+            return list[0]
+
+        return Rate(1711.96, System.currentTimeMillis())
+    }
+
     public fun start()
     {
         /*
