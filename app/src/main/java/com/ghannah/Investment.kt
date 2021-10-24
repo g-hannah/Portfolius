@@ -1,30 +1,26 @@
 package com.ghannah
 
-import kotlin.properties.Delegates
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 /**
  * A class to store information about
  * an individual investment which
  * belongs to some portfolio
  */
-class Investment
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Investment(
+    var _currency : String,
+    var _amount : Double,
+    var _rate : Double,
+    var _fee : Double
+)
 {
 
-//    private val amount : Double = _amount
-//    private val rate : Double = _rate
-//    private val fee : Double = _fee
-    private var currency : String
-    private var amount : Double
-    private var rate : Double
-    private var fee : Double
-
-    constructor(_currency : String, _amount : Double, _rate : Double, _fee : Double)
-    {
-        this.currency = _currency
-        this.amount = _amount
-        this.rate = _rate
-        this.fee = _fee
-    }
+    private var currency : String = _currency
+    private var amount : Double = _amount
+    private var rate : Double = _rate
+    private var fee : Double = _fee
 
     fun getCurrency() : String
     {
@@ -46,16 +42,19 @@ class Investment
         return this.fee
     }
 
+    @JsonIgnore
     fun getEffectiveRate() : Double
     {
         return ((this.amount * this.rate) + this.fee) / this.amount
     }
 
+    @JsonIgnore
     fun getCost() : Double
     {
         return ((this.amount * this.rate) + this.fee)
     }
 
+    @JsonIgnore
     fun net() : Double
     {
         /*
