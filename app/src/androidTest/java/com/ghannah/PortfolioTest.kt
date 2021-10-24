@@ -1,5 +1,7 @@
 package com.ghannah
 
+import android.os.Handler
+import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
@@ -18,10 +20,6 @@ class PortfolioTest
         private const val CURRENCY_NAME : String = "BTC"
     }
 
-    /*
-     * Create some mock exchange rates data
-     */
-
     private val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
     private val list : MutableList<Rate> = mutableListOf<Rate>()
     private val mockRate : Double = 40000.0
@@ -35,6 +33,7 @@ class PortfolioTest
     private lateinit var inv1 : Investment
     private lateinit var inv2 : Investment
     private lateinit var portfolio : Portfolio
+    private lateinit var secondPortfolio : Portfolio
 
     @Before
     fun setupMockData()
@@ -47,23 +46,39 @@ class PortfolioTest
         inv2 = Investment(CURRENCY_NAME, amount2, rate2, fee2)
 
         portfolio = Portfolio(PORTFOLIO_NAME)
-
         portfolio.addInvestment(inv1)
         portfolio.addInvestment(inv2)
+
+        Handler(Looper.getMainLooper()).post {
+
+            PortfolioManager.addPortfolio(portfolio)
+        }
     }
 
+    /**
+     * Add a portfolio that has the same name as
+     * one already added.
+     *
+     * XXX
+     *
+     * Not working since to use PortfolioManager we
+     * have to enclose it in a thread and the thrown
+     * exception isn't caught here.
+     */
 //    @Test(expected=PortfolioExistsException::class)
 //    fun portfolioExistsException_isThrown()
 //    {
-//        val portfolio1 = Portfolio(PORTFOLIO_NAME)
-//        val portfolio2 = Portfolio(PORTFOLIO_NAME)
-//        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+//        Handler(Looper.getMainLooper()).post {
 //
-//        PortfolioManager.read(appContext.dataDir.toString())
-//        PortfolioManager.addPortfolio(portfolio1)
-//        PortfolioManager.addPortfolio(portfolio2)
+//            secondPortfolio = Portfolio(PORTFOLIO_NAME)
+//            PortfolioManager.addPortfolio(secondPortfolio)
+//        }
 //    }
 
+    /**
+     * Test if the correct net value is
+     * calculated for a given rate.
+     */
     @Test
     fun forGivenRate_correctNetValueCalculated()
     {
@@ -81,39 +96,13 @@ class PortfolioTest
         assertEquals(netNow - netForRate, netNow - portfolio.netForRate(rate), 0.01)
     }
 
+    /**
+     * Test that the correct net change
+     * in value is calculated
+     */
     @Test
     fun correctNetChangeCalculated()
     {
-        /*
-         * Create some mock exchange rates data
-         */
-//        val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
-//        val list : MutableList<Rate> = mutableListOf<Rate>()
-//        val mockRate : Double = 40000.0
-//
-//        list.add(Rate(mockRate, System.currentTimeMillis()))
-//        data.put(CURRENCY_NAME, list)
-//
-//        ExchangeRatesManager.setRatesData(data)
-
-        /*
-         * Choose values for mock investment data
-         */
-//        val amount1 : Double = 1.0
-//        val rate1 : Double = 30000.0
-//        val fee1 : Double = 10.0
-//        val amount2 : Double = 2.0
-//        val rate2 : Double = 20000.0
-//        val fee2 : Double = 5.0
-//
-//        val inv1 = Investment(CURRENCY_NAME, amount1, rate1, fee1)
-//        val inv2 = Investment(CURRENCY_NAME, amount2, rate2, fee2)
-//
-//        val portfolio = Portfolio(PORTFOLIO_NAME)
-//
-//        portfolio.addInvestment(inv1)
-//        portfolio.addInvestment(inv2)
-
         /*
          * 120,000
          */
@@ -137,17 +126,19 @@ class PortfolioTest
         assertEquals(netChangeInValue, portfolio.net(),0.01)
     }
 
-//    @After
-//    fun cleanup()
-//    {
-//        /*
-//         * Remove the mock portfolio we added
-//         */
-//        PortfolioManager.removePortfolioByName(PORTFOLIO_NAME)
-//
-//        /*
-//         * Reset the data to an empty map
-//         */
-//        ExchangeRatesManager.setRatesData(mutableMapOf<String,MutableList<Rate>>())
-//    }
+    @After
+    fun cleanup()
+    {
+        Handler(Looper.getMainLooper()).post {
+            /*
+             * Remove the mock portfolio we added
+             */
+            PortfolioManager.removePortfolioByName(PORTFOLIO_NAME)
+
+            /*
+             * Reset the data to an empty map
+             */
+            ExchangeRatesManager.setRatesData(mutableMapOf<String,MutableList<Rate>>())
+        }
+    }
 }
