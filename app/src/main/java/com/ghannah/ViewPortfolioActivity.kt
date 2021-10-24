@@ -1,9 +1,12 @@
 package com.ghannah
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.selects.select
 
 class ViewPortfolioActivity : AppCompatActivity()
 {
@@ -11,11 +14,22 @@ class ViewPortfolioActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.view_portfolio)
+        val selectedPortfolio : Portfolio = PortfoliusState.getCurrentlySelectedPortfolio()
 
-        val res = applicationContext.resources
-        val key : String = res.getString(R.string.SELECTED_PORTFOLIO)
-        val portfolioName : String? = savedInstanceState?.getString(res.getString(R.string.SELECTED_PORTFOLIO))
-        findViewById<TextView>(R.id.textViewPortfolioName).setText(portfolioName)
+        findViewById<TextView>(R.id.textViewPortfolioName).setText(selectedPortfolio._name)
+
+        val ll : LinearLayout = findViewById<LinearLayout>(R.id.linearLayoutPortfolioList)
+        val map : MutableMap<String,MutableList<Investment>> = selectedPortfolio.getInvestments()
+        val res : Resources = applicationContext.resources
+        val fmt : String = res.getString(R.string.investment_view_format_string)
+
+        for (key in map.keys)
+        {
+            val tv = TextView(this)
+            tv.setText(String.format(fmt, key, selectedPortfolio.net()))
+            ll.addView(tv)
+        }
+
+        setContentView(R.layout.view_portfolio)
     }
 }
