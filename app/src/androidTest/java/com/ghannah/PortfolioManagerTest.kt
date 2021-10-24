@@ -16,7 +16,7 @@ class PortfolioManagerTest
      * a current value and a previous value.
      */
     @Test
-    fun correctPercentageDifference_isCalculated()
+    fun test_correctPercentageDifferenceIsCalculated()
     {
         Handler(Looper.getMainLooper()).post {
             Assert.assertEquals(
