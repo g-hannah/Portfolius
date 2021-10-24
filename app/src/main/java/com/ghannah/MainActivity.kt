@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
          * Pass the path to our application's
          * private data directory.
          */
-        PortfolioManager.read(filesDir.toString())
 
         /*
          * Save the currently selected portfolio in the state
