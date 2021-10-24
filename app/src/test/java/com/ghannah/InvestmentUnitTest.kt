@@ -11,7 +11,7 @@ class InvestmentUnitTest
     private val amount : Double = 1.0
     private val rate : Double = 100.0
     private val fee : Double = 5.0
-    private val inv = Investment(amount, rate, fee)
+    private val inv = Investment("BTC", amount, rate, fee)
 
     @Test
     fun cost_isCorrect()
