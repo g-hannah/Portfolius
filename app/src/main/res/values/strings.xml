@@ -15,4 +15,5 @@
     <string name="PORTFOLIO_EXISTS_MESSAGE">A portfolio with this name already exists</string>
     <string name="CREATED_PORTFOLIO_MESSAGE">Successfully created portfolio %s</string>
     <string name="textViewFont">sans-serif-black</string>
+    <string name="investment_view_format_string">%s : £%+.2f</string>
 </resources>

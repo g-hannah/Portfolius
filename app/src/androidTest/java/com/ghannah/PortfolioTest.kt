@@ -7,6 +7,7 @@ import org.junit.After
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class PortfolioTest
@@ -15,6 +16,40 @@ class PortfolioTest
     {
         private const val PORTFOLIO_NAME : String = "MainPortfolio"
         private const val CURRENCY_NAME : String = "BTC"
+    }
+
+    /*
+     * Create some mock exchange rates data
+     */
+
+    private val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
+    private val list : MutableList<Rate> = mutableListOf<Rate>()
+    private val mockRate : Double = 40000.0
+    private val amount1 : Double = 1.0
+    private val rate1 : Double = 30000.0
+    private val fee1 : Double = 10.0
+    private val amount2 : Double = 2.0
+    private val rate2 : Double = 20000.0
+    private val fee2 : Double = 5.0
+
+    private lateinit var inv1 : Investment
+    private lateinit var inv2 : Investment
+    private lateinit var portfolio : Portfolio
+
+    @Before
+    fun setupMockData()
+    {
+        list.add(Rate(mockRate, System.currentTimeMillis()))
+        data.put(CURRENCY_NAME, list)
+        ExchangeRatesManager.setRatesData(data)
+
+        inv1 = Investment(CURRENCY_NAME, amount1, rate1, fee1)
+        inv2 = Investment(CURRENCY_NAME, amount2, rate2, fee2)
+
+        portfolio = Portfolio(PORTFOLIO_NAME)
+
+        portfolio.addInvestment(inv1)
+        portfolio.addInvestment(inv2)
     }
 
 //    @Test(expected=PortfolioExistsException::class)
@@ -30,37 +65,54 @@ class PortfolioTest
 //    }
 
     @Test
+    fun forGivenRate_correctNetValueCalculated()
+    {
+        val otherMockRate : Double = 25000.0
+        val rate = Rate(otherMockRate, System.currentTimeMillis())
+
+        val paid1 : Double = amount1 * rate1 + fee1
+        val valueNow1 : Double = amount1 * mockRate
+        val paid2 : Double = amount2 * rate2 + fee2
+        val valueNow2 : Double = amount2 * mockRate
+
+        val netForRate : Double = ((amount1 * otherMockRate) - paid1) + ((amount2 * otherMockRate) - paid2)
+        val netNow : Double = (valueNow1 - paid1) + (valueNow2 - paid2)
+
+        assertEquals(netNow - netForRate, netNow - portfolio.netForRate(rate), 0.01)
+    }
+
+    @Test
     fun correctNetChangeCalculated()
     {
         /*
          * Create some mock exchange rates data
          */
-        val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
-        val list : MutableList<Rate> = mutableListOf<Rate>()
-        val mockRate : Double = 40000.0
-
-        list.add(Rate(mockRate, System.currentTimeMillis()))
-        data.put(CURRENCY_NAME, list)
-
-        ExchangeRatesManager.setRatesData(data)
+//        val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
+//        val list : MutableList<Rate> = mutableListOf<Rate>()
+//        val mockRate : Double = 40000.0
+//
+//        list.add(Rate(mockRate, System.currentTimeMillis()))
+//        data.put(CURRENCY_NAME, list)
+//
+//        ExchangeRatesManager.setRatesData(data)
 
         /*
          * Choose values for mock investment data
          */
-        val amount1 : Double = 1.0
-        val rate1 : Double = 30000.0
-        val fee1 : Double = 10.0
-        val amount2 : Double = 2.0
-        val rate2 : Double = 20000.0
-        val fee2 : Double = 5.0
-
-        val inv1 = Investment(CURRENCY_NAME, amount1, rate1, fee1)
-        val inv2 = Investment(CURRENCY_NAME, amount2, rate2, fee2)
-
-        val portfolio = Portfolio(PORTFOLIO_NAME)
-
-        portfolio.addInvestment(inv1)
-        portfolio.addInvestment(inv2)
+//        val amount1 : Double = 1.0
+//        val rate1 : Double = 30000.0
+//        val fee1 : Double = 10.0
+//        val amount2 : Double = 2.0
+//        val rate2 : Double = 20000.0
+//        val fee2 : Double = 5.0
+//
+//        val inv1 = Investment(CURRENCY_NAME, amount1, rate1, fee1)
+//        val inv2 = Investment(CURRENCY_NAME, amount2, rate2, fee2)
+//
+//        val portfolio = Portfolio(PORTFOLIO_NAME)
+//
+//        portfolio.addInvestment(inv1)
+//        portfolio.addInvestment(inv2)
 
         /*
          * 120,000

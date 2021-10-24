@@ -42,11 +42,18 @@
 
             <Button
                 android:id="@+id/buttonCreatePortfolio"
-                android:layout_width="423dp"
-                android:layout_height="68dp"
+                android:layout_width="111dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#32074C"
                 android:text="@string/create_new_portfolio_activity" />
+
+            <Button
+                android:id="@+id/buttonViewPortfolio"
+                android:layout_width="111dp"
+                android:layout_height="69dp"
+                android:layout_weight="1"
+                android:text="View Portfolio" />
         </LinearLayout>
 
         <TextView
@@ -113,12 +120,12 @@
 
         <ScrollView
             android:id="@+id/scrollViewPortfolios"
-            android:layout_width="412dp"
-            android:layout_height="108dp"
+            android:layout_width="294dp"
+            android:layout_height="92dp"
             android:background="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.851">
@@ -140,10 +147,9 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.715" />
+            app:layout_constraintVertical_bias="0.735" />
 
         <TextView
             android:id="@+id/textViewTotalNetLabel"
