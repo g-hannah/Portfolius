@@ -117,7 +117,7 @@ object PortfolioManager : AppCompatActivity()
      * net value and the net value given a specific
      * exchange rate as an argument
      */
-    fun getNetChangeGivenRate(rate : Rate) : Double
+    fun getDifferenceBetweenCurrentNetAndNetGivenRate(rate : Rate) : Double
     {
         return this.net() - this.netForRate(rate)
     }
@@ -127,7 +127,7 @@ object PortfolioManager : AppCompatActivity()
      * the current net value and the net value given
      * a specific rate as an argument
      */
-    fun getNetPercentageChangeGivenRate(rate : Rate) : Double
+    fun getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(rate : Rate) : Double
     {
         val currentNet : Double = this.net()
         val netForRate : Double = this.netForRate(rate)

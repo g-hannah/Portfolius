@@ -53,8 +53,8 @@ class MainActivity : AppCompatActivity() {
          */
         val totalNetChange : Double = PortfolioManager.net()
         val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
-        val netChangeValue : Double = PortfolioManager.getNetChangeGivenRate(r)
-        val netChangePercentage : Double = PortfolioManager.getNetPercentageChangeGivenRate(r)
+        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r)
+        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r)
 
         findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
         findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
