@@ -38,20 +38,27 @@ class MainActivity : AppCompatActivity() {
          */
         PortfolioManager.read(filesDir.toString())
 
+        /*
+         * Save the currently selected portfolio in the state
+         */
+        val selectedPortfolio : Portfolio? = PortfolioManager.getFirstPortfolio()
 
-        savedInstanceState?.putString(applicationContext.resources.getString(R.string.SELECTED_PORTFOLIO), "MyCryptoPortfolio")
-
+        if (null != selectedPortfolio)
+            PortfoliusState.setCurrentlySelectedPortfolio(selectedPortfolio)
 
         setContentView(R.layout.activity_main)
 
         /*
-            This value will be calculated over
-            all user's portfolios
+         * Get the total net change in value over all portfolios,
          */
-        // findViewById<TextView>(R.id.totalNetChange).text = PortfolioContainer.net().toString()
-        findViewById<TextView>(R.id.totalNetChange).text = PortfolioManager.netFormatted()
-        findViewById<TextView>(R.id.textViewNetChange).text = "+£0.00"
-        findViewById<TextView>(R.id.textViewNetPercentageChange).text = "+0.00%"
+        val totalNetChange : Double = PortfolioManager.net()
+        val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
+        val netChangeValue : Double = PortfolioManager.getNetChangeGivenRate(r)
+        val netChangePercentage : Double = PortfolioManager.getNetPercentageChangeGivenRate(r)
+
+        findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
+        findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
+        findViewById<TextView>(R.id.textViewNetPercentageChange).text = "%+.2f%%".format(netChangePercentage)
 
         /*
             Set up event handlers for various
@@ -63,6 +70,12 @@ class MainActivity : AppCompatActivity() {
 
                 startActivity(Intent(this, CreatePortfolioActivity::class.java))
             }
+
+//        findViewById<Button>(R.id.buttonViewPortfolio)
+//            .setOnClickListener {
+//
+//                startActivity(Intent(this, SelectPortfolioActivity::class.java))
+//            }
 
         val ll : LinearLayout = findViewById(R.id.linearLayoutPortfolios)
         val portfolios : MutableList<Portfolio> = PortfolioManager.getPortfolios()
