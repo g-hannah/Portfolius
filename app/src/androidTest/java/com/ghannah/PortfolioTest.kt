@@ -3,13 +3,11 @@ package com.ghannah
 import android.os.Handler
 import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.*
 import org.junit.Test
+import org.junit.Before
 import org.junit.After
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.junit.Before
 
 @RunWith(AndroidJUnit4::class)
 class PortfolioTest
@@ -22,10 +20,22 @@ class PortfolioTest
 
     private val data : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
     private val list : MutableList<Rate> = mutableListOf<Rate>()
+
+    /*
+     * Mock exchange rate
+     */
     private val mockRate : Double = 40000.0
+
+    /*
+     * Data for first mock investment
+     */
     private val amount1 : Double = 1.0
     private val rate1 : Double = 30000.0
     private val fee1 : Double = 10.0
+
+    /*
+     * Data for second mock investment
+     */
     private val amount2 : Double = 2.0
     private val rate2 : Double = 20000.0
     private val fee2 : Double = 5.0
@@ -35,6 +45,9 @@ class PortfolioTest
     private lateinit var portfolio : Portfolio
     private lateinit var secondPortfolio : Portfolio
 
+    /**
+     * Set up mock data for the test context
+     */
     @Before
     fun setupMockData()
     {
@@ -51,7 +64,7 @@ class PortfolioTest
 
         Handler(Looper.getMainLooper()).post {
 
-            PortfolioManager.addPortfolio(portfolio)
+            PortfolioManager.addPortfolioNoWrite(portfolio)
         }
     }
 
@@ -71,7 +84,7 @@ class PortfolioTest
 //        Handler(Looper.getMainLooper()).post {
 //
 //            secondPortfolio = Portfolio(PORTFOLIO_NAME)
-//            PortfolioManager.addPortfolio(secondPortfolio)
+//            PortfolioManager.addPortfolioNoWrite(secondPortfolio)
 //        }
 //    }
 
@@ -80,7 +93,7 @@ class PortfolioTest
      * calculated for a given rate.
      */
     @Test
-    fun forGivenRate_correctNetValueCalculated()
+    fun test_forGivenRateCorrectNetValueIsCalculated()
     {
         val otherMockRate : Double = 25000.0
         val rate = Rate(otherMockRate, System.currentTimeMillis())
@@ -101,7 +114,7 @@ class PortfolioTest
      * in value is calculated
      */
     @Test
-    fun correctNetChangeCalculated()
+    fun test_correctNetChangeIsCalculated()
     {
         /*
          * 120,000
