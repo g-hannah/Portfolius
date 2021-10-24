@@ -16,15 +16,13 @@ class AddInvestmentActivity : AppCompatActivity()
         findViewById<Button>(R.id.buttonSubmitNewInvestment)
             .setOnClickListener {
 
-                val ctx : Context = applicationContext
-                val portfolio : Portfolio? = PortfolioManager
-                    .getPortfolioWithName(ctx.resources.getString(R.string.SELECTED_PORTFOLIO))
+                val portfolio : Portfolio = PortfoliusState.getCurrentlySelectedPortfolio()
 
-                if (null == portfolio)
-                {
-                    Toast.makeText(this, "Error retrieving selected portfolio", Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
+//                if (null == portfolio)
+//                {
+//                    Toast.makeText(this, "Error retrieving selected portfolio", Toast.LENGTH_LONG).show()
+//                    return@setOnClickListener
+//                }
 
                 // get selected currency
 
