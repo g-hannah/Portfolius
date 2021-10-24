@@ -18,7 +18,7 @@ object PortfolioManager : AppCompatActivity()
 {
     private val portfolios = mutableListOf<Portfolio>()
     private val mapper = jacksonObjectMapper()
-    private lateinit var DATA_DIRECTORY : String
+    var DATA_DIRECTORY : String? = null
 
     /*
      * In a typical class (not a singleton in Kotlin), to have
@@ -194,6 +194,19 @@ object PortfolioManager : AppCompatActivity()
          * Write the updated data structure to disk
          */
         write()
+
+        return true
+    }
+
+    @Throws(PortfolioExistsException::class)
+    fun addPortfolioNoWrite(portfolio : Portfolio) : Boolean
+    {
+        if (portfolioWithNameExists(portfolio._name))
+        {
+            throw PortfolioExistsException("Portfolio with this name already exists")
+        }
+
+        portfolios.add(portfolio)
 
         return true
     }
