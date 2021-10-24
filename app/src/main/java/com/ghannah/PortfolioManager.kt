@@ -102,6 +102,57 @@ object PortfolioManager : AppCompatActivity()
     }
 
     /**
+     * Return the first portfolio in the list
+     */
+    fun getFirstPortfolio() : Portfolio?
+    {
+        if (0 == portfolios.size)
+            return null
+
+        return portfolios[0]
+    }
+
+    /**
+     * Calculate the difference between the current
+     * net value and the net value given a specific
+     * exchange rate as an argument
+     */
+    fun getNetChangeGivenRate(rate : Rate) : Double
+    {
+        return this.net() - this.netForRate(rate)
+    }
+
+    /**
+     * Calculate the percentage difference between
+     * the current net value and the net value given
+     * a specific rate as an argument
+     */
+    fun getNetPercentageChangeGivenRate(rate : Rate) : Double
+    {
+        val currentNet : Double = this.net()
+        val netForRate : Double = this.netForRate(rate)
+
+        return currentNet / netForRate * 100.0
+    }
+
+    /**
+     * Calculate the net change in value over
+     * all the portfolios given a specific
+     * exchange rate as an argument
+     */
+    private fun netForRate(rate : Rate) : Double
+    {
+        var ret : Double = 0.0
+
+        for (portfolio in portfolios)
+        {
+            ret += portfolio.netForRate(rate)
+        }
+
+        return ret
+    }
+
+    /**
      * Add a new portfolio to the array if one
      * already does not exist with this name
      *
@@ -125,6 +176,9 @@ object PortfolioManager : AppCompatActivity()
         return true
     }
 
+    /**
+     * Remove portfolio with the given name
+     */
     fun removePortfolioByName(name : String)
     {
         var toRemove : Portfolio? = null
@@ -183,6 +237,9 @@ object PortfolioManager : AppCompatActivity()
         return String.format("£%.2f", n)
     }
 
+    /**
+     * Return the list of the portfolios
+     */
     fun getPortfolios() : MutableList<Portfolio>
     {
         return this.portfolios
