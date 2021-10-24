@@ -18,7 +18,7 @@ object PortfolioManager : AppCompatActivity()
 {
     private val portfolios = mutableListOf<Portfolio>()
     private val mapper = jacksonObjectMapper()
-    private var DATA_DIRECTORY : String = InstrumentationRegistry.getInstrumentation().targetContext.dataDir.toString()
+    private lateinit var DATA_DIRECTORY : String
 
     /*
      * In a typical class (not a singleton in Kotlin), to have
@@ -32,10 +32,17 @@ object PortfolioManager : AppCompatActivity()
      */
     private const val DATA_FILE_NAME : String = "portfolios.json"
 
-    init
-    {
-        read()
-    }
+//    init
+//    {
+//        val ctx = getApplicationContext()
+//
+//        if (null != ctx)
+//        {
+//            DATA_DIRECTORY = ctx.filesDir.toString()
+//
+//            read()
+//        }
+//    }
 
 
     /**
