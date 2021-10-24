@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val list : MutableList<Portfolio> = mutableListOf<Portfolio>()
         val portfolio = Portfolio("MyPortfolio")
 
+        PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
         PortfolioManager.addPortfolio(portfolio)
     }
 
