@@ -33,6 +33,13 @@
             android:label="SomeLabel"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".AddInvestmentActivity"
+            android:exported="true"
+            android:label="SomeLabel"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
