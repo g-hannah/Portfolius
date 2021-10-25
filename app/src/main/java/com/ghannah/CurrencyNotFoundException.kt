@@ -1,4 +1,5 @@
 package com.ghannah
 
-class CurrencyNotFoundException {
+class CurrencyNotFoundException(reason : String) : Exception(reason)
+{
 }
