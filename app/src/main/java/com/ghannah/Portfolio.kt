@@ -47,6 +47,22 @@ class Portfolio(var _name : String)
 
     }
 
+    @Throws(NoInvestmentListForCurrencyException::class)
+    fun netForCurrency(currency : String) : Double
+    {
+        var list : MutableList<Investment>? = mapInvestments[currency]
+
+        if (null == list)
+            throw NoInvestmentListForCurrencyException("No investments in portfolio for $currency")
+
+        var res : Double = 0.0
+
+        for (investment in list)
+            res += investment.net()
+
+        return res
+    }
+
     /**
      * Calculate the net change in
      * value for a given rate
