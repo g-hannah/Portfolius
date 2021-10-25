@@ -1,10 +1,12 @@
 package com.ghannah
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -17,6 +19,7 @@ class CreatePortfolioActivity : AppCompatActivity()
         findViewById<EditText>(R.id.newPortfolioName).setText("")
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
