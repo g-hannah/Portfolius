@@ -8,14 +8,14 @@
 
     <ScrollView
         android:id="@+id/scrollViewInvestments"
-        android:layout_width="362dp"
-        android:layout_height="533dp"
+        android:layout_width="358dp"
+        android:layout_height="430dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.722">
+        app:layout_constraintVertical_bias="0.465">
 
         <LinearLayout
             android:id="@+id/linearLayoutPortfolioList"
@@ -29,7 +29,6 @@
         android:layout_width="228dp"
         android:layout_height="46dp"
         android:fontFamily="serif"
-        android:text="hey"
         android:textAlignment="center"
         android:textColor="#020202"
         android:textSize="24sp"
@@ -39,4 +38,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.105" />
+
+    <Button
+        android:id="@+id/buttonAddNewInvestment"
+        android:layout_width="212dp"
+        android:layout_height="57dp"
+        android:text="Add Investment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.881" />
 </androidx.constraintlayout.widget.ConstraintLayout>
