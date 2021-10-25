@@ -1,4 +1,5 @@
 package com.ghannah
 
-class NoInvestmentListForCurrencyException {
+class NoInvestmentListForCurrencyException(reason : String) : Exception(reason)
+{
 }
