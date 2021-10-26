@@ -2,8 +2,9 @@ package com.ghannah
 
 object PortfoliusState
 {
-    private lateinit var selectedPortfolio : Portfolio
-    private lateinit var selectedInvestment : Investment
+    private var selectedPortfolio : Portfolio? = null
+    private var selectedInvestment : Investment? = null
+    private var selectedInvestmentCurrency : String? = null
 
     fun setCurrentlySelectedPortfolio(portfolio : Portfolio)
     {
@@ -15,13 +16,28 @@ object PortfoliusState
         this.selectedInvestment = investment
     }
 
-    fun getCurrentlySelectedPortfolio() : Portfolio
+    fun setCurrentlySelectedInvestmentCurrency(value : String)
+    {
+        this.selectedInvestmentCurrency = value
+    }
+
+    fun getCurrentlySelectedPortfolio() : Portfolio?
     {
         return this.selectedPortfolio
     }
 
-    fun getCurrentlySelectedInvestment() : Investment
+    fun getCurrentlySelectedInvestment() : Investment?
     {
         return this.selectedInvestment
+    }
+
+    fun getCurrentlySelectedInvestmentCurrency() : String?
+    {
+        return this.selectedInvestmentCurrency
+    }
+
+    fun unsetSelectedPortfolio()
+    {
+        this.selectedPortfolio = null
     }
 }
