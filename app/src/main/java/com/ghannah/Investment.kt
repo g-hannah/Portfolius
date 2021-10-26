@@ -21,6 +21,18 @@ class Investment(
     private var amount : Double = _amount
     private var rate : Double = _rate
     private var fee : Double = _fee
+    private val added : Long = System.currentTimeMillis()
+    private val id : String = generateInvestmentId()
+
+    private fun generateInvestmentId() : String
+    {
+        var fmt : String = "%4X-%4X"
+        val endRange : Int = 4
+
+        val part1 : String = String.format("%4X", added).substring(0, endRange)
+        val part2 : String = String.format("%4X", (currency.hashCode() xor amount.hashCode() xor rate.hashCode() xor fee.hashCode())).substring(0, endRange)
+        return "$part1-$part2"
+    }
 
     fun getCurrency() : String
     {
@@ -40,6 +52,23 @@ class Investment(
     fun getFee() : Double
     {
         return this.fee
+    }
+
+    fun getId() : String
+    {
+        return this.id
+    }
+
+    @JsonIgnore
+    fun getWorth() : Double
+    {
+        val rate : Rate? = ExchangeRatesManager.getRateForCurrency(this.currency)
+        if (null != rate)
+        {
+            return this.amount * rate.getValue()
+        }
+
+        return 0.0
     }
 
     @JsonIgnore
@@ -68,7 +97,7 @@ class Investment(
          * val currentValue : Double = r * this.amount
          * return currentValue - this.cost
          */
-        val currentRate : Rate? = ExchangeRatesManager.getRateForCurrency("BTC")
+        val currentRate : Rate? = ExchangeRatesManager.getRateForCurrency(this.currency)
 
         if (null != currentRate)
         {
@@ -77,5 +106,11 @@ class Investment(
         }
 
         return 0.0
+    }
+
+    @JsonIgnore
+    override fun toString() : String
+    {
+        return "$id - " + "£%.2f".format(net())
     }
 }
