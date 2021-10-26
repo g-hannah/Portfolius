@@ -40,6 +40,20 @@
             android:label="SomeLabel"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".ViewInvestmentsActivity"
+            android:exported="true"
+            android:label="SomeLabel"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".ViewInvestmentActivity"
+            android:exported="true"
+            android:label="SomeLabel"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
