@@ -1,10 +1,16 @@
 package com.ghannah
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
 /**
  * A class to store information for a
  * given portfolio. Contains a list of
  * investments made in this portfolio
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Portfolio(var _name : String)
 {
     private val name : String = _name
@@ -103,12 +109,15 @@ class Portfolio(var _name : String)
 
         list.add(inv)
         mapInvestments.put(inv.getCurrency(), list)
+
+        PortfolioManager.write()
     }
 
     /**
      * Remove an investment from the list
      * of investments for a given cryptocurrency
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     fun removeInvestment(inv : Investment)
     {
         var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
@@ -117,6 +126,8 @@ class Portfolio(var _name : String)
         {
             list.remove(inv)
             mapInvestments.put(inv.getCurrency(), list)
+
+            PortfolioManager.write()
         }
     }
 
@@ -139,9 +150,30 @@ class Portfolio(var _name : String)
 //        return null
 //    }
 
+    @JsonIgnore
+    fun getValue() : Double
+    {
+        var ret : Double = 0.0
+
+        for (key in mapInvestments.keys)
+        {
+            val rate : Rate = ExchangeRatesManager.getRateForCurrency(key) ?: continue
+            val list : MutableList<Investment> = mapInvestments[key] ?: continue
+
+            for (investment in list)
+            {
+                ret += (investment.getAmount() * rate.getValue())
+            }
+        }
+
+        return ret
+    }
+
     override fun toString(): String
     {
+        val value : String = "£%.2f".format(getValue())
         val n : String = "£%.2f".format(net())
-        return "Portfolio: $_name Value: $n"
+
+        return "$name, value $value, net $n"
     }
 }
