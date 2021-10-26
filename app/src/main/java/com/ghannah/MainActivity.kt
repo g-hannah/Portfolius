@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.view.isEmpty
 import com.ghannah.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,18 +24,83 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setMockData()
     {
-        val data : MutableMap<String,MutableList<Portfolio>> = mutableMapOf<String,MutableList<Portfolio>>()
-        val list : MutableList<Portfolio> = mutableListOf<Portfolio>()
-        val portfolio = Portfolio("MyPortfolio")
+//        val portfolio = Portfolio("MyPortfolio")
+//
+//        PortfolioManager.addPortfolio(portfolio)
 
-        PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
-        PortfolioManager.addPortfolio(portfolio)
+
+        val ratesData : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
+        val listBTC : MutableList<Rate> = mutableListOf<Rate>()
+        val listETH : MutableList<Rate> = mutableListOf<Rate>()
+
+        listBTC.add(Rate(45833.01, System.currentTimeMillis()))
+        listETH.add(Rate(3072.13, System.currentTimeMillis()))
+        ratesData.put("BTC", listBTC)
+        ratesData.put("ETH", listETH)
+        ExchangeRatesManager.setRatesData(ratesData)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun showPortfolios()
+    {
+        /*
+         * Display list of portfolios within the LinearLayout,
+         * which is embedded within the ScrollView.
+         */
+        val ll : LinearLayout? = findViewById(R.id.linearLayoutPortfolios)
+        val portfolios : MutableList<Portfolio> = PortfolioManager.getPortfolios()
+
+        if (!ll?.isEmpty()!!)
+        {
+            ll.removeAllViews()
+        }
+
+        if (portfolios.isEmpty())
+        {
+            val tv = TextView(this)
+            tv.text = applicationContext.resources.getString(R.string.no_portfolios_string)
+            ll?.addView(tv)
+        }
+        else
+        {
+            for (portfolio in portfolios)
+            {
+                var tv = TextView(this)
+
+                tv.text = portfolio.toString()
+                ll?.addView(tv)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun showStats()
+    {
+        /*
+         * Retrieve current net value of all portfolios,
+         * and calculate difference in value and percentage
+         * difference between that current value and a given
+         * value in the past (1 hour perhaps, or 24 hours ago)
+         */
+        val totalNetChange : Double = PortfolioManager.net()
+        val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
+        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r)
+        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r)
+
+        /*
+         * Display those values in their TextView objects in the GUI
+         */
+        findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
+        findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
+        findViewById<TextView>(R.id.textViewNetPercentageChange).text = "%+.2f%%".format(netChangePercentage)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
+        PortfolioManager.read()
         setMockData()
 
         /*
@@ -66,23 +132,9 @@ class MainActivity : AppCompatActivity() {
          */
         setContentView(R.layout.activity_main)
 
-        /*
-         * Retrieve current net value of all portfolios,
-         * and calculate difference in value and percentage
-         * difference between that current value and a given
-         * value in the past (1 hour perhaps, or 24 hours ago)
-         */
-        val totalNetChange : Double = PortfolioManager.net()
-        val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
-        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r)
-        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r)
 
-        /*
-         * Display those values in their TextView objects in the GUI
-         */
-        findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
-        findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
-        findViewById<TextView>(R.id.textViewNetPercentageChange).text = "%+.2f%%".format(netChangePercentage)
+        showStats()
+        showPortfolios()
 
         /*
          * Set click event handler for button
@@ -101,27 +153,29 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttonViewPortfolio)
             .setOnClickListener {
 
+                if (PortfolioManager.isEmpty())
+                {
+                    Notification.error(this, "No portfolios to view!")
+                    return@setOnClickListener
+                }
+
                 startActivity(Intent(this, ViewPortfolioActivity::class.java))
             }
 
-        /*
-         * Display list of portfolios within the LinearLayout,
-         * which is embedded within the ScrollView.
-         */
-        val ll : LinearLayout = findViewById(R.id.linearLayoutPortfolios)
-        val portfolios : MutableList<Portfolio> = PortfolioManager.getPortfolios()
 
-        for (portfolio in portfolios)
-        {
-            var tv = TextView(this)
-
-            tv.setText(portfolio.toString())
-            ll.addView(tv)
-        }
 
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
 //        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onRestart()
+    {
+        super.onRestart()
+
+        showStats()
+        showPortfolios()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
