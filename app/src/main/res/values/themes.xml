@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.DeleteButton" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@android:color/holo_red_dark</item>
+    </style>
+
     <style name="Theme.Portfolius.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Portfolius.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

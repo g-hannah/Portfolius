@@ -7,14 +7,45 @@
     android:background="@color/colorBackground">
 
     <ScrollView
+        android:id="@+id/scrollViewInvestmentListForCurrency"
         android:layout_width="376dp"
         android:layout_height="488dp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="105dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.855">
 
         <LinearLayout
+            android:id="@+id/linearLayoutInvestmentListForCurrency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewPortfolioNameViewInvestments"
+        android:layout_width="207dp"
+        android:layout_height="49dp"
+        android:fontFamily="serif"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/textViewInvestmentListForCurrencyLabel"
+        android:layout_width="379dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.245" />
 </androidx.constraintlayout.widget.ConstraintLayout>

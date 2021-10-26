@@ -15,4 +15,5 @@
     <color name="colorNegative">#FF0000</color>
 
     <color name="colorCanvas">#FFFFFF</color>
+    <color name="colorDeleteButton">#EE0000</color>
 </resources>
