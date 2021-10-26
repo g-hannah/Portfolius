@@ -38,19 +38,24 @@ class CreatePortfolioActivity : AppCompatActivity()
                 }
                 catch (e : PortfolioExistsException)
                 {
-                    Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+                    Notification.error(this, e.message)
+                   // Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
                 }
 
                 if (result)
                 {
-                    Toast.makeText(
+                    Notification.send(
                         this,
-                        String.format("Successfully created portfolio \"%s\"", portfolio._name),
-                        Toast.LENGTH_LONG
-                    ).show()
+                        String.format("Successfully created portfolio \"%s\"", portfolio._name)
+                    )
                 }
 
-                clearName()
+                val portfolios = PortfolioManager.getPortfolios()
+
+                if (1 == portfolios.size)
+                    PortfoliusState.setCurrentlySelectedPortfolio(portfolio)
+
+                finish()
             }
     }
 }
