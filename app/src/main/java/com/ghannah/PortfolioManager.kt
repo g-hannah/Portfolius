@@ -53,7 +53,7 @@ object PortfolioManager : AppCompatActivity()
      * data directory is passed as an argument,
      * which is then stored in an instance var.
      */
-    private fun read()
+    fun read()
     {
         val pathToFile = "$DATA_DIRECTORY/$DATA_FILE_NAME"
         val file = File(pathToFile)
@@ -62,16 +62,19 @@ object PortfolioManager : AppCompatActivity()
          * Just return if it doesn't exist
          */
         if (!file.exists())
+        {
+            //Notification.error(this, "Database file with portfolios not found")
             return
+        }
 
         val json : String = File(pathToFile).readText(Charsets.UTF_8)
         val list : MutableList<Portfolio> = mapper.readValue<MutableList<Portfolio>>(json)
 
-        for (portfolio in list)
-            portfolios.add(portfolio)
-
-        for (portfolio in this.portfolios)
-            println("PORTFOLIO: $portfolio")
+        if (list.isNotEmpty())
+        {
+            for (portfolio in list)
+                portfolios.add(portfolio)
+        }
     }
 
     /**
@@ -79,7 +82,7 @@ object PortfolioManager : AppCompatActivity()
      * portfolios into a JSON string and write
      * it to disk
      */
-    private fun write()
+    fun write()
     {
         val json : String = mapper.writeValueAsString(portfolios)
         FileOutputStream(File("$DATA_DIRECTORY/$DATA_FILE_NAME")).use {
@@ -230,6 +233,14 @@ object PortfolioManager : AppCompatActivity()
         if (null != toRemove)
         {
             portfolios.remove(toRemove)
+            if (portfolios.isNotEmpty())
+            {
+                PortfoliusState.setCurrentlySelectedPortfolio(portfolios[0])
+            }
+            else
+            {
+                PortfoliusState.unsetSelectedPortfolio()
+            }
         }
     }
 
@@ -278,5 +289,15 @@ object PortfolioManager : AppCompatActivity()
     fun getPortfolios() : MutableList<Portfolio>
     {
         return this.portfolios
+    }
+
+    fun isEmpty() : Boolean
+    {
+        return this.portfolios.isEmpty()
+    }
+
+    fun count() : Int
+    {
+        return this.portfolios.size
     }
 }
