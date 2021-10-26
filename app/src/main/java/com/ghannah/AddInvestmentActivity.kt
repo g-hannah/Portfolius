@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 {
-    private var selectedCurrency : String? = null
+    private var selectedCurrency : String = "BTC" // default
 
     override fun onCreate(savedInstanceState : Bundle?)
     {
@@ -26,10 +26,12 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
             spinner.adapter = it
         }
 
+        spinner.onItemSelectedListener = this
+
         findViewById<Button>(R.id.buttonSubmitNewInvestment)
             .setOnClickListener {
 
-                val portfolio : Portfolio = PortfoliusState.getCurrentlySelectedPortfolio()
+                val portfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
 
                 if (null == portfolio)
                 {
@@ -43,20 +45,30 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
                 val rate : Double? = findViewById<EditText>(R.id.editTextRateCurrency).text.toString().toDoubleOrNull()
                 val fee : Double? = findViewById<EditText>(R.id.editTextFeeCurrency).text.toString().toDoubleOrNull()
 
-                if (null == selectedCurrency || null == amount || null == rate || null == fee)
+                if (null == amount || null == rate || null == fee)
                 {
-                    Toast.makeText(this, "Error with input values", Toast.LENGTH_LONG).show()
+                    Notification.error(this, "An error occurred parsing input values")
                     return@setOnClickListener
                 }
 
-                val portfolioName : String = portfolio._name
-                portfolio.addInvestment(Investment(selectedCurrency!!, amount, rate, fee))
+//                val message = "Adding investment: amount $amount, rate $rate, fee $fee, currency $selectedCurrency"
+//
+//                Notification.send(
+//                    this,
+//                    message)
 
-                Toast.makeText(
+                val portfolioName : String = portfolio._name
+
+//                println("INVESTMENT: $message")
+                val inv = Investment(selectedCurrency, amount, rate, fee)
+                portfolio.addInvestment(inv)
+
+                Notification.send(
                     this,
-                    "Successfully added new investment to portfolio $portfolioName for currency $selectedCurrency",
-                    Toast.LENGTH_LONG
+                    "Successfully added new investment to " + portfolio._name
                 )
+
+                //finish()
             }
     }
 
@@ -65,7 +77,9 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
         val s : Any = parent.getItemAtPosition(pos)
 
         if (s is String)
+        {
             selectedCurrency = s
+        }
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?)
