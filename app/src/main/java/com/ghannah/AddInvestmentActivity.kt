@@ -28,7 +28,7 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
 
         spinner.onItemSelectedListener = this
 
-        findViewById<Button>(R.id.buttonSubmitNewInvestment)
+        findViewById<Button>(R.id.buttonSubmitEditedInvestment)
             .setOnClickListener {
 
                 val portfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
