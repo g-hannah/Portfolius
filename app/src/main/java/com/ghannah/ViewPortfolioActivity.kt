@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -56,9 +57,17 @@ class ViewPortfolioActivity : AppCompatActivity()
         }
         else
         {
+            val listsToRemove : MutableList<String> = mutableListOf<String>()
+
             for (key in map.keys)
             {
                 val button = Button(this)
+
+                if (map[key]!!.isEmpty())
+                {
+                    listsToRemove.add(key)
+                    continue
+                }
 
                 try
                 {
@@ -81,9 +90,14 @@ class ViewPortfolioActivity : AppCompatActivity()
                     Notification.error(this, e.message)
                 }
             }
+
+            for (key in listsToRemove)
+            {
+                map.remove(key)
+            }
         }
 
-        findViewById<Button>(R.id.buttonDeletePortfolio)
+        findViewById<ImageButton>(R.id.buttonDeletePortfolio)
             .setOnClickListener {
 
                 PortfolioManager.removePortfolioByName(selectedPortfolio._name)
@@ -97,11 +111,6 @@ class ViewPortfolioActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-
-        if (null == savedInstanceState)
-        {
-            Notification.send(this, "state is null")
-        }
 
         val selectedPortfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
 
@@ -125,7 +134,7 @@ class ViewPortfolioActivity : AppCompatActivity()
 //            ll?.addView(tv)
 //        }
 
-        findViewById<Button>(R.id.buttonAddNewInvestment)
+        findViewById<ImageButton>(R.id.buttonAddNewInvestment)
             ?.setOnClickListener {
 
                 startActivity(Intent(this, AddInvestmentActivity::class.java))
