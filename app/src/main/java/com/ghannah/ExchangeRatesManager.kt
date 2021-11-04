@@ -22,14 +22,19 @@ object ExchangeRatesManager
 
     fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate
     {
+        val fakeRate = Rate(1711.96, System.currentTimeMillis())
+
         val list : MutableList<Rate>? = historic_rates[currency]
         if (null == list)
-            return Rate(1711.96, System.currentTimeMillis())
+            return fakeRate
 
-        if (0 < list.size)
-            return list[0]
+        if (0 == list.size || 0 > at)
+            return fakeRate
 
-        return Rate(1711.96, System.currentTimeMillis())
+        if (at >= list.size)
+            return list[list.size-1]
+        else
+            return list[at]
     }
 
     public fun start()
