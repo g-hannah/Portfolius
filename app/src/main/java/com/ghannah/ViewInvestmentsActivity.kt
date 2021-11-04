@@ -46,7 +46,6 @@ class ViewInvestmentsActivity : AppCompatActivity()
 
         val buttonInvestmentMapping : MutableMap<Button,Investment> = mutableMapOf<Button,Investment>()
 
-        val ourThis : Context = this
         for (investment in list)
         {
             val button = Button(this)
