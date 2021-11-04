@@ -55,6 +55,9 @@ object PortfolioManager : AppCompatActivity()
      */
     fun read()
     {
+        if (null == this.DATA_DIRECTORY)
+            this.DATA_DIRECTORY = PortfoliusState.getDataDirectory()
+
         val pathToFile = "$DATA_DIRECTORY/$DATA_FILE_NAME"
         val file = File(pathToFile)
 
@@ -72,6 +75,8 @@ object PortfolioManager : AppCompatActivity()
 
         if (list.isNotEmpty())
         {
+            portfolios.clear()
+
             for (portfolio in list)
                 portfolios.add(portfolio)
         }
@@ -84,6 +89,9 @@ object PortfolioManager : AppCompatActivity()
      */
     fun write()
     {
+        if (null == this.DATA_DIRECTORY)
+            this.DATA_DIRECTORY = PortfoliusState.getDataDirectory()
+
         val json : String = mapper.writeValueAsString(portfolios)
         FileOutputStream(File("$DATA_DIRECTORY/$DATA_FILE_NAME")).use {
             it.write(json.toByteArray())
@@ -241,6 +249,8 @@ object PortfolioManager : AppCompatActivity()
             {
                 PortfoliusState.unsetSelectedPortfolio()
             }
+
+            write()
         }
     }
 
