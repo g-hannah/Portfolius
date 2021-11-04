@@ -21,6 +21,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    /**
+     * XXX
+     *
+     * Used until backend server is set up and the
+     * exchange rates manager actually starts
+     * retrieving live exchange rates.
+     */
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setMockData()
     {
@@ -29,14 +36,63 @@ class MainActivity : AppCompatActivity() {
 //        PortfolioManager.addPortfolio(portfolio)
 
 
+        var ts : Long = System.currentTimeMillis()
+        val hour : Long = (1000L * 60L * 60L)
         val ratesData : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
-        val listBTC : MutableList<Rate> = mutableListOf<Rate>()
-        val listETH : MutableList<Rate> = mutableListOf<Rate>()
 
-        listBTC.add(Rate(45833.01, System.currentTimeMillis()))
-        listETH.add(Rate(3072.13, System.currentTimeMillis()))
-        ratesData.put("BTC", listBTC)
-        ratesData.put("ETH", listETH)
+        val listBTC : MutableList<Rate> = mutableListOf<Rate>(
+            Rate(45833.01, ts),
+            Rate(45412.43, ts - hour),
+            Rate(45333.33, ts - (hour * 2)),
+            Rate(45350.31, ts - (hour * 3)),
+            Rate(44999.87, ts - (hour * 4)),
+            Rate(44789.54, ts - (hour * 5)),
+            Rate(44780.01, ts - (hour * 6)),
+            Rate(44767.43, ts - (hour * 7)),
+            Rate(44766.33, ts - (hour * 8)),
+            Rate(44751.31, ts - (hour * 9)),
+            Rate(44720.87, ts - (hour * 10)),
+            Rate(44716.54, ts - (hour * 11)),
+            Rate(44700.33, ts - (hour * 12)),
+            Rate(44659.31, ts - (hour * 13)),
+            Rate(44678.87, ts - (hour * 14)),
+            Rate(44644.54, ts - (hour * 15)),
+            Rate(44642.01, ts - (hour * 16)),
+            Rate(44638.43, ts - (hour * 17)),
+            Rate(44627.33, ts - (hour * 18)),
+            Rate(44617.31, ts - (hour * 19)),
+            Rate(44615.87, ts - (hour * 20)),
+            Rate(44601.54, ts - (hour * 21))
+        )
+
+        val listETH : MutableList<Rate> = mutableListOf<Rate>(
+            Rate(3265.01, ts),
+            Rate(3217.43, ts - hour),
+            Rate(3201.33, ts - (hour * 2)),
+            Rate(3189.31, ts - (hour * 3)),
+            Rate(3168.87, ts - (hour * 4)),
+            Rate(3155.54, ts - (hour * 5)),
+            Rate(3150.01, ts - (hour * 6)),
+            Rate(3148.43, ts - (hour * 7)),
+            Rate(3143.33, ts - (hour * 8)),
+            Rate(3128.31, ts - (hour * 9)),
+            Rate(3122.87, ts - (hour * 10)),
+            Rate(3119.54, ts - (hour * 11)),
+            Rate(3116.33, ts - (hour * 12)),
+            Rate(3112.31, ts - (hour * 13)),
+            Rate(3102.87, ts - (hour * 14)),
+            Rate(3093.54, ts - (hour * 15)),
+            Rate(3061.01, ts - (hour * 16)),
+            Rate(3036.43, ts - (hour * 17)),
+            Rate(3029.33, ts - (hour * 18)),
+            Rate(3019.31, ts - (hour * 19)),
+            Rate(3007.87, ts - (hour * 20)),
+            Rate(2999.54, ts - (hour * 21))
+        )
+
+        ratesData["BTC"] = listBTC
+        ratesData["ETH"] = listETH
+
         ExchangeRatesManager.setRatesData(ratesData)
     }
 
@@ -63,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         }
         else
         {
+
             for (portfolio in portfolios)
             {
                 var tv = TextView(this)
@@ -86,6 +143,9 @@ class MainActivity : AppCompatActivity() {
         val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
         val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r)
         val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r)
+        val allTimeGainLoss : Double = PortfoliusState.getTotalGainOrLoss()
+
+        val gainOrLoss : String = if (0.0 > allTimeGainLoss) "Total loss " else "Total gain "
 
         /*
          * Display those values in their TextView objects in the GUI
@@ -93,15 +153,20 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
         findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
         findViewById<TextView>(R.id.textViewNetPercentageChange).text = "%+.2f%%".format(netChangePercentage)
+        findViewById<TextView>(R.id.textViewAllTimeGainLossValue).text = gainOrLoss + "£%.2f".format(allTimeGainLoss)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
+        PortfoliusState.setDataDirectory(applicationContext.filesDir.toString())
+       // PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
         PortfolioManager.read()
         setMockData()
+
+
+
 
         /*
             Create separate thread that will handle
