@@ -5,19 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/spinnerCurrencyChoices"
-        android:layout_width="209dp"
-        android:layout_height="32dp"
-        android:spinnerMode="dialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.171" />
-
     <EditText
-        android:id="@+id/editTextAmountCurrency"
+        android:id="@+id/editTextEditAmountCurrency"
         android:layout_width="140dp"
         android:layout_height="46dp"
         android:ems="10"
@@ -30,7 +19,7 @@
         app:layout_constraintVertical_bias="0.248" />
 
     <EditText
-        android:id="@+id/editTextRateCurrency"
+        android:id="@+id/editTextEditRateCurrency"
         android:layout_width="140dp"
         android:layout_height="45dp"
         android:ems="10"
@@ -43,7 +32,7 @@
         app:layout_constraintVertical_bias="0.334" />
 
     <EditText
-        android:id="@+id/editTextFeeCurrency"
+        android:id="@+id/editTextEditFeeCurrency"
         android:layout_width="140dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -59,7 +48,7 @@
         android:id="@+id/buttonSubmitEditedInvestment"
         android:layout_width="157dp"
         android:layout_height="48dp"
-        android:text="Add"
+        android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +56,7 @@
         app:layout_constraintVertical_bias="0.553" />
 
     <TextView
-        android:id="@+id/textViewInvestmentAmountLabel"
+        android:id="@+id/textViewInvestmentEditAmountLabel"
         android:layout_width="82dp"
         android:layout_height="30dp"
         android:text="Amount"
@@ -80,7 +69,7 @@
         app:layout_constraintVertical_bias="0.255" />
 
     <TextView
-        android:id="@+id/textViewInvestmentRateLabel"
+        android:id="@+id/textViewInvestmentEditRateLabel"
         android:layout_width="85dp"
         android:layout_height="30dp"
         android:text="Rate"
@@ -93,7 +82,7 @@
         app:layout_constraintVertical_bias="0.336" />
 
     <TextView
-        android:id="@+id/textViewInvestmentFeeLabel"
+        android:id="@+id/textViewInvestmentEditFeeLabel"
         android:layout_width="86dp"
         android:layout_height="23dp"
         android:text="Fee"
@@ -104,4 +93,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.419" />
+
+    <TextView
+        android:id="@+id/textViewEditInvestmentCurrency"
+        android:layout_width="158dp"
+        android:layout_height="34dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.177" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="220dp"
+        android:layout_height="32dp"
+        android:fontFamily="serif"
+        android:text="Editing Investment"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.094" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,9 @@
     <color name="colorBackground">#FFFFFF</color>
 
     <color name="colorButton">#CA871F</color>
-    <color name="colorPositive">#00FF00</color>
-    <color name="colorNegative">#FF0000</color>
+    <color name="colorPositive">#00BB00</color>
+    <color name="colorNegative">#990000</color>
 
     <color name="colorCanvas">#FFFFFF</color>
-    <color name="colorDeleteButton">#EE0000</color>
+    <color name="colorDelete">#990000</color>
 </resources>

@@ -7,129 +7,216 @@
     android:background="@color/colorBackground">
 
     <LinearLayout
-        android:layout_width="361dp"
-        android:layout_height="338dp"
-        android:orientation="vertical"
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455">
+        app:layout_constraintVertical_bias="0.226">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewInvestmentAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont"
-                android:text="Amount"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textViewInvestmentAmountValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewInvestmentCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont"
-                android:text="Cost" />
-
-            <TextView
-                android:id="@+id/textViewInvestmentCostValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewInvestmentRateThen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont"
-                android:text="Rate" />
-
-            <TextView
-                android:id="@+id/textViewInvestmentRateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="74dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewInvestmentWorth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont"
-                android:text="Value" />
-
-            <TextView
-                android:id="@+id/textViewInvestmentWorthValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/textViewFont" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewInvestmentId"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="ID"
+            android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/textViewInvestmentNet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Net" />
+        <TextView
+            android:id="@+id/textViewInvestmentIdValue"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewInvestmentNetValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.302">
+
+        <TextView
+            android:id="@+id/textViewInvestmentAmount"
+            android:layout_width="15dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Amount"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textViewInvestmentAmountValue"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="@string/textViewFont" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.375">
+
+        <TextView
+            android:id="@+id/textViewInvestmentCost"
+            android:layout_width="15dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Cost"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewInvestmentCostValue"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@string/textViewFont" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.452">
+
+        <TextView
+            android:id="@+id/textViewInvestmentRateThen"
+            android:layout_width="10dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Rate"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewInvestmentRateValue"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="@string/textViewFont" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.534">
+
+        <TextView
+            android:id="@+id/textViewInvestmentWorth"
+            android:layout_width="10dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Value"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewInvestmentWorthValue"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="@string/textViewFont" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615">
+
+        <TextView
+            android:id="@+id/textViewInvestmentNet"
+            android:layout_width="10dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Net"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewInvestmentNetValue"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="282dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.732">
+
+        <ImageButton
+            android:id="@+id/buttonDeleteInvestment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+        <ImageButton
+            android:id="@+id/buttonEditInvestment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonDeleteInvestment"
-        android:layout_width="153dp"
-        android:layout_height="52dp"
-        android:text="Delete"
+        android:id="@+id/buttonInvestmentMarkAsSold"
+        android:layout_width="138dp"
+        android:layout_height="51dp"
+        android:text="Sold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.827" />
+        app:layout_constraintVertical_bias="0.877" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

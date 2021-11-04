@@ -23,35 +23,49 @@
         <activity
             android:name=".CreatePortfolioActivity"
             android:exported="true"
-            android:label="SomeLabel"
+            android:label="PortfolioCreation"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
 
         <activity
             android:name=".ViewPortfolioActivity"
             android:exported="true"
-            android:label="SomeLabel"
+            android:label="ViewPortfolioDetails"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
 
         <activity
             android:name=".AddInvestmentActivity"
             android:exported="true"
-            android:label="SomeLabel"
+            android:label="AddInvestment"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
 
         <activity
             android:name=".ViewInvestmentsActivity"
             android:exported="true"
-            android:label="SomeLabel"
+            android:label="ViewInvestmentDetails"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
 
         <activity
             android:name=".ViewInvestmentActivity"
             android:exported="true"
-            android:label="SomeLabel"
+            android:label="ViewInvestment"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".EditInvestmentActivity"
+            android:exported="true"
+            android:label="EditInvestment"
+            android:theme="@style/Theme.Portfolius.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".SoldInvestmentActivity"
+            android:exported="true"
+            android:label="SoldInvestment"
             android:theme="@style/Theme.Portfolius.NoActionBar">
         </activity>
     </application>
