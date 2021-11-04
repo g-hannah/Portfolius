@@ -111,6 +111,8 @@ class Investment(
     @JsonIgnore
     override fun toString() : String
     {
-        return "$id - " + "£%.2f".format(net())
+        val r : String = "£%.2f".format(rate)
+
+        return "$amount $currency @ $r"
     }
 }
