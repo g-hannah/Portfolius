@@ -100,6 +100,7 @@ class Portfolio(var _name : String)
      * Add an investment to list of investments
      * for a given cryptocurrency
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     fun addInvestment(inv : Investment)
     {
         var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
@@ -113,6 +114,17 @@ class Portfolio(var _name : String)
         PortfolioManager.write()
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun editInvestment(inv : Investment, amount : Double, rate : Double, fee : Double)
+    {
+        inv._amount = amount
+        inv._rate = rate
+        inv._fee = fee
+
+        PortfolioManager.write()
+    }
+
     /**
      * Remove an investment from the list
      * of investments for a given cryptocurrency
@@ -120,7 +132,7 @@ class Portfolio(var _name : String)
     @RequiresApi(Build.VERSION_CODES.N)
     fun removeInvestment(inv : Investment)
     {
-        var list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
+        val list : MutableList<Investment>? = mapInvestments[inv.getCurrency()]
 
         if (null != list)
         {
