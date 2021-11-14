@@ -88,16 +88,4 @@ public class ServerRequestHandler
 
         return future;
     }
-
-    private void get() {
-
-        try
-        {
-            DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
-        }
-        catch (IOException e)
-        {
-
-        }
-    }
 }
