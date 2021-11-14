@@ -15,6 +15,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.isEmpty
 import com.ghannah.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Default
 
 class MainActivity : AppCompatActivity() {
 
@@ -140,9 +142,9 @@ class MainActivity : AppCompatActivity() {
          * value in the past (1 hour perhaps, or 24 hours ago)
          */
         val totalNetChange : Double = PortfolioManager.net()
-        val r : Rate = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
-        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r)
-        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r)
+        val r : Rate? = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
+        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r!!)
+        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r!!)
         val allTimeGainLoss : Double = PortfoliusState.getTotalGainOrLoss()
 
         val gainOrLoss : String = if (0.0 > allTimeGainLoss) "Total loss " else "Total gain "
@@ -160,22 +162,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*
+            Start the exchange rates manager in separate thread of execution
+         */
+        CoroutineScope(Default).launch {
+
+            ExchangeRatesManager.start()
+        }
+
         PortfoliusState.setDataDirectory(applicationContext.filesDir.toString())
        // PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
         PortfolioManager.read()
-        setMockData()
-
-
-
-
-        /*
-            Create separate thread that will handle
-            communication with the remote server.
-
-            Get the rates history for cryptocurrencies
-
-            Read local user data into memory (portfolios)
-         */
+        //setMockData()
 
         /*
          * Read the portfolios into memory.
