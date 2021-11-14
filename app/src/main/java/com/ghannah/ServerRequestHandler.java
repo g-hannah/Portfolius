@@ -21,8 +21,6 @@ public class ServerRequestHandler
 {
     private String ip = null;
     private Socket socket = null;
-    private String ip = null;
-
     private Short port = 0;
 
     public ServerRequestHandler(final String ip, final Short port)
@@ -51,6 +49,16 @@ public class ServerRequestHandler
         return this.port;
     }
 
+    /**
+     * Sends request to the backend and gets the
+     * response. This is done on a separate thread.
+     * The supplyAync() method of CompletableFuture
+     * runs the supplied task on ForkJoinPool.
+     *
+     * @param data JSON-encoded request
+     * @return A CompletableFuture<String> instance
+     * @throws IOException
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public CompletableFuture<String> request(final String data)
             throws IOException
