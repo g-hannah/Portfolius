@@ -4,7 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.Dispatchers.Default
 import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.sync.withLock
 
 /**
  * A singleton object for dealing with exchange rates
@@ -15,7 +19,9 @@ object ExchangeRatesManager
     private var rates : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
     private val server_ip : String = "192.168.0.20"
     private val server_port : Short = 34567.toShort()
-    private val sleep_time : Long = 360000 // 6 minutes
+    private val sleep_time : Int = 360000 // 6 minutes
+    private val mapper : ObjectMapper = ObjectMapper()
+    private val mutex : Mutex = Mutex()
 
     private fun writeRatesToDisk()
     {
@@ -26,24 +32,6 @@ object ExchangeRatesManager
     {
         this.rates = map
     }
-/*
-    fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate
-    {
-        val fakeRate = Rate(1711.96, System.currentTimeMillis())
-
-        val list : MutableList<Rate>? = rates[currency]
-        if (null == list)
-            return fakeRate
-
-        if (0 == list.size || 0 > at)
-            return fakeRate
-
-        if (at >= list.size)
-            return list[list.size-1]
-        else
-            return list[at]
-    }
- */
 
     /**
      * Send request to the backend server to obtain
@@ -57,7 +45,6 @@ object ExchangeRatesManager
 
         val request : String = "{ \"type\" : \"information\", \"request\" : \"currencies\" }"
         val future : CompletableFuture<String> = req.request(request);
-        val mapper : ObjectMapper = ObjectMapper()
         val response : String = future.get()
 
         val root : JsonNode = mapper.readTree(response)
@@ -71,6 +58,7 @@ object ExchangeRatesManager
                     "ETH",
                     "BTC"
                 ]
+            }
          */
 
         val list : MutableList<String> = mutableListOf<String>()
@@ -103,7 +91,6 @@ object ExchangeRatesManager
 
         val request : String = "{ \"type\" : \"rate\", \"currency\" : \"$currency\" }"
         val future : CompletableFuture<String> = req.request(request)
-        val mapper : ObjectMapper = ObjectMapper()
         val response : String = future.get()
 
         val root : JsonNode = mapper.readTree(response)
@@ -140,11 +127,11 @@ object ExchangeRatesManager
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    public fun start()
+    public suspend fun start()
     {
         val currencies : MutableList<String> = _get_available_currencies();
         for (currency in currencies)
-            this.rates.put(currency, mutableListOf<Rate>())
+            rates.put(currency, mutableListOf<Rate>())
 
         while (true)
         {
@@ -154,7 +141,11 @@ object ExchangeRatesManager
                 val rate : Rate? = _get_rate(currency)
                 if (null != rate)
                 {
+                    mutex.lock()
+
                     list.add(rate!!)
+
+                    mutex.unlock()
                 }
             }
 
@@ -162,13 +153,54 @@ object ExchangeRatesManager
         }
     }
 
-    fun getRateForCurrency(currency : String) : Rate?
+    @RequiresApi(Build.VERSION_CODES.N)
+    public suspend fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate?
+    {
+        if (0 >= at || 24 <= at)
+            return null
+
+        val list : MutableList<Rate>? = rates[currency]
+
+        /*
+            Lock the mutex to have exclusive
+            access to the rates data structures
+         */
+        mutex.lock()
+
+        if (null == list || 0 >= list.size)
+        {
+            mutex.unlock()
+            return null
+        }
+
+        val millis_ago : Int = at * 3600000 // one hour * millis per hour
+        val nr : Int = millis_ago / sleep_time
+        val idx : Int = Integer.min(nr, list!!.size-1)
+
+        val rate : Rate? = list[idx]
+        mutex.unlock()
+
+        return rate
+    }
+
+    public suspend fun getRateForCurrency(currency : String) : Rate?
     {
         val list : MutableList<Rate>? = rates.get(currency)
+        var rate : Rate? = null
 
-        if (null == list)
-            return null
-        else
-            return list.get(list.size - 1)
+        /*
+            Lock the mutex to have exclusive
+            access to the rates data structures
+         */
+        mutex.lock()
+
+        if (null != list)
+        {
+            rate = list.get(list.size-1)
+        }
+
+        mutex.unlock()
+
+        return rate
     }
 }
