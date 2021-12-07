@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * A class to store information for a
@@ -96,6 +98,30 @@ class Portfolio(var _name : String)
         return ret
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun netForTimepoint(tp : Int) : Double
+    {
+        var ret : Double = 0.0
+
+        for (key in mapInvestments.keys)
+        {
+            val list : MutableList<Investment> = mapInvestments[key] ?: continue
+            val rate : Rate? = ExchangeRatesManager.getRateForCurrencyAtTimepoint(key, tp)
+
+            if (null != rate)
+            {
+                for (i in list)
+                {
+                    val cost = i.getCost()
+                    val worthAtTp: Double = i.getAmount() * rate.getValue()
+                    ret += (worthAtTp - cost)
+                }
+            }
+        }
+
+        return ret
+    }
+
     /**
      * Add an investment to list of investments
      * for a given cryptocurrency
@@ -169,12 +195,18 @@ class Portfolio(var _name : String)
 
         for (key in mapInvestments.keys)
         {
-            val rate : Rate = ExchangeRatesManager.getRateForCurrency(key) ?: continue
+            var rate : Rate? = null
+
+            rate = ExchangeRatesManager.getRateForCurrency(key)
+
+            if (null == rate)
+                continue
+
             val list : MutableList<Investment> = mapInvestments[key] ?: continue
 
             for (investment in list)
             {
-                ret += (investment.getAmount() * rate.getValue())
+                ret += (investment.getAmount() * rate!!.getValue())
             }
         }
 
@@ -183,9 +215,7 @@ class Portfolio(var _name : String)
 
     override fun toString(): String
     {
-        val value : String = "£%.2f".format(getValue())
-        val n : String = "£%.2f".format(net())
 
-        return "$name, value $value, net $n"
+        return name
     }
 }

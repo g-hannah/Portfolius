@@ -1,14 +1,17 @@
 package com.ghannah
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 {
     private var selectedCurrency : String = "BTC" // default
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -50,12 +53,6 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
                     Notification.error(this, "An error occurred parsing input values")
                     return@setOnClickListener
                 }
-
-//                val message = "Adding investment: amount $amount, rate $rate, fee $fee, currency $selectedCurrency"
-//
-//                Notification.send(
-//                    this,
-//                    message)
 
                 val portfolioName : String = portfolio._name
 

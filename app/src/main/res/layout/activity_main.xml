@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Portfolius.AppBarOverlay">
@@ -28,34 +29,6 @@
         app:layout_anchor="@+id/constraintLayout"
         app:layout_anchorGravity="center">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="409dp"
-            android:layout_height="69dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/totalNetChange"
-            app:layout_constraintVertical_bias="1.0">
-
-            <Button
-                android:id="@+id/buttonCreatePortfolio"
-                android:layout_width="111dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#32074C"
-                android:text="@string/create_new_portfolio_activity" />
-
-            <Button
-                android:id="@+id/buttonViewPortfolio"
-                android:layout_width="111dp"
-                android:layout_height="69dp"
-                android:layout_weight="1"
-                android:text="View Portfolio" />
-        </LinearLayout>
-
         <TextView
             android:id="@+id/totalNetChange"
             android:layout_width="252dp"
@@ -72,7 +45,51 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.562" />
+            app:layout_constraintVertical_bias="0.311" />
+
+        <ScrollView
+            android:id="@+id/scrollViewPortfolios"
+            android:layout_width="409dp"
+            android:layout_height="168dp"
+            android:background="#fffff8"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.687">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutPortfolios"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"></LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/textViewAllTimeGainLossValue"
+            android:layout_width="83dp"
+            android:layout_height="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.728"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.79" />
+
+        <Button
+            android:id="@+id/buttonCreatePortfolio"
+            android:layout_width="208dp"
+            android:layout_height="62dp"
+            android:layout_weight="1"
+            android:text="@string/create_new_portfolio_activity"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.956" />
 
         <LinearLayout
             android:id="@+id/linearLayoutNetChanges"
@@ -81,10 +98,10 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.537"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.637">
+            app:layout_constraintVertical_bias="0.42">
 
             <TextView
                 android:id="@+id/textViewNetChange"
@@ -107,45 +124,23 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <ScrollView
-            android:id="@+id/scrollViewPortfolios"
-            android:layout_width="294dp"
-            android:layout_height="92dp"
-            android:background="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.851">
-
-            <LinearLayout
-                android:id="@+id/linearLayoutPortfolios"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
-        </ScrollView>
-
         <TextView
-            android:id="@+id/textViewPortfolioListLabel"
-            android:layout_width="409dp"
+            android:id="@+id/textView"
+            android:layout_width="203dp"
             android:layout_height="24dp"
-            android:fontFamily="serif"
-            android:text="Your portfolios"
+            android:text="24 hour change"
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.735" />
+            app:layout_constraintVertical_bias="0.381" />
 
         <TextView
             android:id="@+id/textViewApplicationTitle"
-            android:layout_width="377dp"
-            android:layout_height="33dp"
+            android:layout_width="178dp"
+            android:layout_height="35dp"
             android:fontFamily="serif"
             android:text="Portfolius"
             android:textAlignment="center"
@@ -155,46 +150,37 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.47"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.098" />
-
-        <LinearLayout
-            android:id="@+id/linearLayoutGraph"
-            android:layout_width="353dp"
-            android:layout_height="161dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.254">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lineChart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="10dp"
-                android:padding="9dp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewAllTimeGainLossValue"
-            android:layout_width="198dp"
-            android:layout_height="21dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.687" />
+            app:layout_constraintVertical_bias="0.079" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="159dp"
+            android:layout_height="27dp"
+            android:text="All-time gain / loss"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.317"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.788" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textViewPortfolioListLabel"
+        android:layout_width="409dp"
+        android:layout_height="24dp"
+        android:fontFamily="serif"
+        android:text="Your portfolios"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_anchor="@+id/constraintLayout"
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

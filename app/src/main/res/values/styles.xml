@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Button.Delete" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="Button.Investment" parent="ThemeOverlay.AppCompat">
+        <item name="backgroundTint">@android:color/holo_blue_dark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>

@@ -2,6 +2,8 @@ package com.ghannah
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * A class to store information about
@@ -62,10 +64,14 @@ class Investment(
     @JsonIgnore
     fun getWorth() : Double
     {
-        val rate : Rate? = ExchangeRatesManager.getRateForCurrency(this.currency)
+        var rate : Rate? = null
+        val currency : String = this.currency
+
+        rate = ExchangeRatesManager.getRateForCurrency(currency)
+       // val rate : Rate? = ExchangeRatesManager.getRateForCurrency(this.currency)
         if (null != rate)
         {
-            return this.amount * rate.getValue()
+            return this.amount * rate!!.getValue()
         }
 
         return 0.0
@@ -97,11 +103,13 @@ class Investment(
          * val currentValue : Double = r * this.amount
          * return currentValue - this.cost
          */
-        val currentRate : Rate? = ExchangeRatesManager.getRateForCurrency(this.currency)
+        var currentRate : Rate? = null
+        val currency : String = this.currency
+        currentRate = ExchangeRatesManager.getRateForCurrency(currency)
 
         if (null != currentRate)
         {
-            val currentWorth : Double = this.amount * currentRate.getValue()
+            val currentWorth : Double = this.amount * currentRate!!.getValue()
             return currentWorth - getCost()
         }
 

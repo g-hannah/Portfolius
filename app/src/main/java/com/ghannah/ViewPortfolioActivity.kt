@@ -31,7 +31,7 @@ class ViewPortfolioActivity : AppCompatActivity()
 
         if (null == selectedPortfolio)
         {
-            Notification.error(this, "No selected portfolio")
+            Notification.error(this, "No selected portfolio (showInvestments())")
             finish()
         }
 
@@ -62,6 +62,7 @@ class ViewPortfolioActivity : AppCompatActivity()
             for (key in map.keys)
             {
                 val button = Button(this)
+                button.setBackgroundColor(0xffee88)
 
                 if (map[key]!!.isEmpty())
                 {
@@ -97,7 +98,7 @@ class ViewPortfolioActivity : AppCompatActivity()
             }
         }
 
-        findViewById<ImageButton>(R.id.buttonDeletePortfolio)
+        findViewById<Button>(R.id.buttonDeletePortfolio)
             .setOnClickListener {
 
                 PortfolioManager.removePortfolioByName(selectedPortfolio._name)
@@ -116,7 +117,7 @@ class ViewPortfolioActivity : AppCompatActivity()
 
         if (null == selectedPortfolio)
         {
-            Notification.error(this, "No portfolio is selected")
+            Notification.error(this, "No portfolio is selected (onCreate() in ViewPortfolioActivity)")
             finish()
         }
 
@@ -134,7 +135,7 @@ class ViewPortfolioActivity : AppCompatActivity()
 //            ll?.addView(tv)
 //        }
 
-        findViewById<ImageButton>(R.id.buttonAddNewInvestment)
+        findViewById<Button>(R.id.buttonAddNewInvestment)
             ?.setOnClickListener {
 
                 startActivity(Intent(this, AddInvestmentActivity::class.java))

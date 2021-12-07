@@ -1,6 +1,7 @@
 package com.ghannah
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -17,7 +18,7 @@ object ExchangeRatesManager
 {
     //private val rates : MutableMap<String,Rate?> = mutableMapOf<String,Rate?>()
     private var rates : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
-    private val server_ip : String = "192.168.0.20"
+    private val server_ip : String = "192.168.0.16"
     private val server_port : Short = 34567.toShort()
     private val sleep_time : Int = 360000 // 6 minutes
     private val mapper : ObjectMapper = ObjectMapper()
@@ -129,7 +130,10 @@ object ExchangeRatesManager
     @RequiresApi(Build.VERSION_CODES.N)
     public suspend fun start()
     {
+        return
+
         val currencies : MutableList<String> = _get_available_currencies();
+
         for (currency in currencies)
             rates.put(currency, mutableListOf<Rate>())
 
@@ -154,36 +158,26 @@ object ExchangeRatesManager
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    public suspend fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate?
+    public fun getRateForCurrencyAtTimepoint(currency : String, at : Int) : Rate?
     {
-        if (0 >= at || 24 <= at)
+        val _at = at - 1
+
+        if (0 > _at || 24 <= _at)
             return null
+
+        var ret : Rate? = null
 
         val list : MutableList<Rate>? = rates[currency]
 
-        /*
-            Lock the mutex to have exclusive
-            access to the rates data structures
-         */
-        mutex.lock()
-
-        if (null == list || 0 >= list.size)
+        if (null != list && 0 < list.size)
         {
-            mutex.unlock()
-            return null
+            ret = list[_at]
         }
 
-        val millis_ago : Int = at * 3600000 // one hour * millis per hour
-        val nr : Int = millis_ago / sleep_time
-        val idx : Int = Integer.min(nr, list!!.size-1)
-
-        val rate : Rate? = list[idx]
-        mutex.unlock()
-
-        return rate
+        return ret
     }
 
-    public suspend fun getRateForCurrency(currency : String) : Rate?
+    public fun getRateForCurrency(currency : String) : Rate?
     {
         val list : MutableList<Rate>? = rates.get(currency)
         var rate : Rate? = null
@@ -192,14 +186,14 @@ object ExchangeRatesManager
             Lock the mutex to have exclusive
             access to the rates data structures
          */
-        mutex.lock()
+        //mutex.lock()
 
         if (null != list)
         {
-            rate = list.get(list.size-1)
+            rate = list.get(0)
         }
 
-        mutex.unlock()
+        //mutex.unlock()
 
         return rate
     }

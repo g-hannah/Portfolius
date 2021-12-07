@@ -134,6 +134,14 @@ object PortfolioManager : AppCompatActivity()
         return this.net() - this.netForRate(rate)
     }
 
+    fun getDifferenceBetweenCurrentNetAndNetForTimepoint(tp : Int) : Double
+    {
+        val currentNet : Double = this.net()
+        val netForTimepoint : Double = this.netForTimepoint(tp)
+
+        return currentNet - netForTimepoint
+    }
+
     fun getPercentageDifferenceBetweenValues(value1 : Double, value2 : Double) : Double
     {
         if (0.0 == value2)
@@ -147,17 +155,24 @@ object PortfolioManager : AppCompatActivity()
         return ret * 100.0
     }
 
-    /**
-     * Calculate the percentage difference between
-     * the current net value and the net value given
-     * a specific rate as an argument
-     */
-    fun getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(rate : Rate) : Double
+    fun getPercentageDifferenceBetweenCurrentNetAndNetForTimepoint(tp : Int) : Double
     {
-        var currentNet : Double = this.net()
-        var netForRate : Double = this.netForRate(rate)
+        val currentNet : Double = this.net()
+        val netForTimepoint : Double = this.netForTimepoint(tp)
 
-        return getPercentageDifferenceBetweenValues(currentNet, netForRate)
+        return getPercentageDifferenceBetweenValues(currentNet, netForTimepoint)
+    }
+
+    fun netForTimepoint(tp : Int) : Double
+    {
+        var ret : Double = 0.0
+
+        for (p in portfolios)
+        {
+            ret += p.netForTimepoint(tp)
+        }
+
+        return ret
     }
 
     fun getPercentageDifferenceInNetValuesForRates(rate1 : Rate, rate2 : Rate) : Double

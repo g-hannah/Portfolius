@@ -24,6 +24,11 @@ class SoldInvestmentActivity : AppCompatActivity()
                 {
                     PortfoliusState.addToTotalGainOrLoss(inv.net())
                     portfolio.removeInvestment(inv)
+
+                    PortfoliusState.unsetSelectedInvestment()
+
+                    Notification.send(this, "Investment marked as sold!")
+                    finish()
                 }
             }
 

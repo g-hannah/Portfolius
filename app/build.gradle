@@ -64,5 +64,5 @@ dependencies {
 //    androidTestImplementation 'org.junit.jupiter:junit-jupiter'
 
     // https://mvnrepository.com/artifact/com.github.PhilJay/MPAndroidChart
-    implementation group: 'com.github.PhilJay', name: 'MPAndroidChart', version: 'v3.0.0'
+    //implementation group: 'com.github.PhilJay', name: 'MPAndroidChart', version: 'v3.0.0'
 }

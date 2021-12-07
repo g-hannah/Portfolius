@@ -3,6 +3,7 @@ package com.ghannah
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,13 +27,14 @@ class ViewInvestmentsActivity : AppCompatActivity()
 
         if (null == selectedPortfolio)
         {
-            Notification.error(this, "No portfolio selected")
+            Notification.error(this, "No portfolio selected (onCreate() in ViewInvestmentsActivity)")
             finish()
         }
 
         setContentView(R.layout.view_investments)
 
         val res = applicationContext.resources
+        findViewById<TextView>(R.id.textViewPortfolioNameViewInvestments).text = selectedPortfolio!!._name
         findViewById<TextView>(R.id.textViewInvestmentListForCurrencyLabel).text = String.format(res.getString(R.string.investment_list_label_format_string), selectedCurrency)
 
         val list : MutableList<Investment> = selectedPortfolio!!.getInvestments()[selectedCurrency]!!
@@ -48,7 +50,11 @@ class ViewInvestmentsActivity : AppCompatActivity()
 
         for (investment in list)
         {
-            val button = Button(this)
+          //  val buttonStyle : Int = R.style.Button_Investment
+          //  val ctw : ContextThemeWrapper = ContextThemeWrapper(this, buttonStyle)
+            val button : Button = Button(this)
+
+            button.setBackgroundColor(0xffff88)
             button.text = investment.toString()
             buttonInvestmentMapping[button] = investment
             ll?.addView(button)
@@ -62,5 +68,21 @@ class ViewInvestmentsActivity : AppCompatActivity()
                 }
             }
         }
+    }
+
+    override fun onRestart()
+    {
+        super.onRestart()
+
+        val selectedPortfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+
+        if (null == selectedPortfolio)
+            finish()
+
+        val selectedCurrency : String? = PortfoliusState.getCurrentlySelectedInvestmentCurrency()
+        val list : MutableList<Investment> = selectedPortfolio!!.getInvestments()[selectedCurrency]!!
+
+        if (0 == list.size)
+            finish()
     }
 }

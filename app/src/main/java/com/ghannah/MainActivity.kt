@@ -1,14 +1,18 @@
 package com.ghannah
 
+import android.app.ActionBar
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -64,7 +68,10 @@ class MainActivity : AppCompatActivity() {
             Rate(44627.33, ts - (hour * 18)),
             Rate(44617.31, ts - (hour * 19)),
             Rate(44615.87, ts - (hour * 20)),
-            Rate(44601.54, ts - (hour * 21))
+            Rate(44601.54, ts - (hour * 21)),
+            Rate(43789.32, ts - (hour * 22)),
+            Rate(42493.29, ts - (hour * 23)),
+            Rate(41098.29, ts - (hour * 24))
         )
 
         val listETH : MutableList<Rate> = mutableListOf<Rate>(
@@ -89,13 +96,17 @@ class MainActivity : AppCompatActivity() {
             Rate(3029.33, ts - (hour * 18)),
             Rate(3019.31, ts - (hour * 19)),
             Rate(3007.87, ts - (hour * 20)),
-            Rate(2999.54, ts - (hour * 21))
+            Rate(2999.54, ts - (hour * 21)),
+            Rate(2856.32, ts - (hour * 22)),
+            Rate(2786.29, ts - (hour * 23)),
+            Rate(2677.29, ts - (hour * 24))
         )
 
         ratesData["BTC"] = listBTC
         ratesData["ETH"] = listETH
 
         ExchangeRatesManager.setRatesData(ratesData)
+        PortfoliusState.resetTotalGainOrLoss()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -117,17 +128,64 @@ class MainActivity : AppCompatActivity() {
         {
             val tv = TextView(this)
             tv.text = applicationContext.resources.getString(R.string.no_portfolios_string)
+            tv.textAlignment = View.TEXT_ALIGNMENT_CENTER
             ll?.addView(tv)
         }
         else
         {
-
             for (portfolio in portfolios)
             {
-                var tv = TextView(this)
+                var _ll : LinearLayout = LinearLayout(this)
+                var btn = Button(this)
+                btn.setBackgroundColor(0xffffff)
+                btn.height = ActionBar.LayoutParams.WRAP_CONTENT
+                btn.textAlignment = View.TEXT_ALIGNMENT_CENTER
+               // var btn = Button(this)
 
-                tv.text = portfolio.toString()
-                ll?.addView(tv)
+//                val mapButtonToPortfolio : MutableMap<Button,Portfolio> = mutableMapOf<Button,Portfolio>()
+//                mapButtonToPortfolio.put(btn, portfolio)
+
+                val mapTvToPortfolio : MutableMap<Button,Portfolio> = mutableMapOf<Button,Portfolio>()
+                mapTvToPortfolio.put(btn, portfolio)
+
+                btn.setOnClickListener {
+
+                    val p : Portfolio? = mapTvToPortfolio.get(it)
+                    if (null != p)
+                    {
+                        PortfoliusState.setCurrentlySelectedPortfolio(p)
+                        startActivity(Intent(this, ViewPortfolioActivity::class.java))
+                    }
+                }
+
+//                btn.setOnClickListener {
+//
+//                    val p : Portfolio? = mapButtonToPortfolio.get(it)
+//                    PortfoliusState.setCurrentlySelectedPortfolio(p)
+//                }
+//
+//                _ll.addView(tv)
+//                _ll.addView(btn)
+
+                btn.text = portfolio.toString()
+                ll?.addView(btn)
+            }
+        }
+    }
+
+    private fun setTextViewValue(tv : TextView?, value : Double, fmt : String)
+    {
+        if (null != tv)
+        {
+            tv.text = fmt.format(value)
+
+            if (0.0 > value)
+            {
+                tv.setTextColor(resources.getColor(R.color.colorNegative))
+            }
+            else
+            {
+                tv.setTextColor(resources.getColor(R.color.colorPositive))
             }
         }
     }
@@ -141,21 +199,35 @@ class MainActivity : AppCompatActivity() {
          * difference between that current value and a given
          * value in the past (1 hour perhaps, or 24 hours ago)
          */
-        val totalNetChange : Double = PortfolioManager.net()
-        val r : Rate? = ExchangeRatesManager.getRateForCurrencyAtTimepoint("BTC", 24)
-        val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(r!!)
-        val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(r!!)
-        val allTimeGainLoss : Double = PortfoliusState.getTotalGainOrLoss()
+        //setMockData()
+//        val rate1 : Rate? = ExchangeRatesManager.getRateForCurrency("ETH")
+//        val rate2 : Rate? = ExchangeRatesManager.getRateForCurrencyAtTimepoint("ETH", 24)
+//        val ncv1 : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(rate1!!)
+//        val ncv2 : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetGivenRate(rate2!!)
+//        val ncp1 : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(rate1!!)
+//        val ncp2 : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetGivenRate(rate2!!)
+//        Notification.send(this, "" + rate1?.getValue())
+//        Notification.send(this, "" + rate2?.getValue())
+//        Notification.send(this, "" + ncv1)
+//        Notification.send(this, "" + ncv2)
+//        Notification.send(this, "" + ncp1)
+//        Notification.send(this, "" + ncp2)
 
-        val gainOrLoss : String = if (0.0 > allTimeGainLoss) "Total loss " else "Total gain "
+        GlobalScope.launch {
 
-        /*
-         * Display those values in their TextView objects in the GUI
-         */
-        findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
-        findViewById<TextView>(R.id.textViewNetChange).text = "£%+.2f".format(netChangeValue)
-        findViewById<TextView>(R.id.textViewNetPercentageChange).text = "%+.2f%%".format(netChangePercentage)
-        findViewById<TextView>(R.id.textViewAllTimeGainLossValue).text = gainOrLoss + "£%.2f".format(allTimeGainLoss)
+            val totalNetChange : Double = PortfolioManager.net()
+            val netChangeValue : Double = PortfolioManager.getDifferenceBetweenCurrentNetAndNetForTimepoint(24)
+            val netChangePercentage : Double = PortfolioManager.getPercentageDifferenceBetweenCurrentNetAndNetForTimepoint(24)
+            val allTimeGainLoss : Double = PortfoliusState.getTotalGainOrLoss()
+
+            /*
+             * Display those values in their TextView objects in the GUI
+             */
+            findViewById<TextView>(R.id.totalNetChange).text = "£%.2f".format(totalNetChange)
+            setTextViewValue(findViewById<TextView>(R.id.textViewNetChange), netChangeValue, "£%+.2f")
+            setTextViewValue(findViewById<TextView>(R.id.textViewNetPercentageChange), netChangePercentage, "%+.2f%%")
+            setTextViewValue(findViewById<TextView>(R.id.textViewAllTimeGainLossValue), allTimeGainLoss,"£%+.2f")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -165,15 +237,15 @@ class MainActivity : AppCompatActivity() {
         /*
             Start the exchange rates manager in separate thread of execution
          */
-        CoroutineScope(Default).launch {
-
-            ExchangeRatesManager.start()
-        }
+//        CoroutineScope(Default).launch {
+//
+//            ExchangeRatesManager.start()
+//        }
 
         PortfoliusState.setDataDirectory(applicationContext.filesDir.toString())
        // PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
         PortfolioManager.read()
-        //setMockData()
+        setMockData()
 
         /*
          * Read the portfolios into memory.
@@ -208,23 +280,6 @@ class MainActivity : AppCompatActivity() {
 
                 startActivity(Intent(this, CreatePortfolioActivity::class.java))
             }
-
-        /*
-         * Set click event handler for button
-         * for viewing the currently selected portfolio
-         */
-        findViewById<Button>(R.id.buttonViewPortfolio)
-            .setOnClickListener {
-
-                if (PortfolioManager.isEmpty())
-                {
-                    Notification.error(this, "No portfolios to view!")
-                    return@setOnClickListener
-                }
-
-                startActivity(Intent(this, ViewPortfolioActivity::class.java))
-            }
-
 
 
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)

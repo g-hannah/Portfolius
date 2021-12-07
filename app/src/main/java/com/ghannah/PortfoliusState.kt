@@ -122,6 +122,11 @@ object PortfoliusState
         return totalGainOrLoss!!
     }
 
+    fun resetTotalGainOrLoss()
+    {
+        this.totalGainOrLoss = 0.0
+    }
+
     fun setCurrentlySelectedPortfolio(portfolio : Portfolio)
     {
         this.selectedPortfolio = portfolio
@@ -155,5 +160,10 @@ object PortfoliusState
     fun unsetSelectedPortfolio()
     {
         this.selectedPortfolio = null
+    }
+
+    fun unsetSelectedInvestment()
+    {
+        this.selectedInvestment = null
     }
 }
