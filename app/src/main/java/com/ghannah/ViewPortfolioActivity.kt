@@ -1,6 +1,7 @@
 package com.ghannah
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -11,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
 import kotlinx.coroutines.selects.select
@@ -18,6 +20,18 @@ import kotlinx.coroutines.selects.select
 class ViewPortfolioActivity : AppCompatActivity()
 {
     private var selectedCurrency : String? = null
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun _deletePortfolio()
+    {
+        val p : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+        if (null != p)
+        {
+            PortfolioManager.removePortfolioByName(p._name)
+            finish()
+        }
+    }
+
     /**
      * Help function to display the investments
      * for the currently selected portfolio
@@ -99,10 +113,25 @@ class ViewPortfolioActivity : AppCompatActivity()
         findViewById<Button>(R.id.buttonDeletePortfolio)
             .setOnClickListener {
 
-                PortfolioManager.removePortfolioByName(selectedPortfolio._name)
-                Notification.send(this, "Removed portfolio")
+                val builder : AlertDialog.Builder = AlertDialog.Builder(this)
 
-                finish()
+                builder
+                    .setMessage(resources.getString(R.string.confirmation_delete_portfolio))
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                            dialog, id -> _deletePortfolio()
+
+//
+//                        PortfolioManager.removePortfolioByName(selectedPortfolio._name)
+//                        Notification.send(this, "Deleted portfolio")
+//                        finish()
+//                    }
+                    })
+                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                            dialog, id -> { }
+                    })
+
+                builder.create().show()
             }
     }
 
@@ -120,18 +149,8 @@ class ViewPortfolioActivity : AppCompatActivity()
         }
 
         setContentView(R.layout.view_portfolio)
-
         findViewById<TextView>(R.id.textViewPortfolioName)?.setText(selectedPortfolio!!._name)
-
         showInvestments()
-
-
-//        for (i in 1..10)
-//        {
-//            val tv = TextView(this)
-//            tv.text = "Investment $i : +£1711.96"
-//            ll?.addView(tv)
-//        }
 
         findViewById<Button>(R.id.buttonAddNewInvestment)
             ?.setOnClickListener {
@@ -144,7 +163,6 @@ class ViewPortfolioActivity : AppCompatActivity()
     override fun onRestart()
     {
         super.onRestart()
-
         showInvestments()
     }
 }

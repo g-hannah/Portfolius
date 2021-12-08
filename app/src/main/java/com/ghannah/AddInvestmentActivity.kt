@@ -65,7 +65,7 @@ class AddInvestmentActivity : AppCompatActivity(), AdapterView.OnItemSelectedLis
                     "Successfully added new investment to " + portfolio._name
                 )
 
-                //finish()
+                finish()
             }
     }
 

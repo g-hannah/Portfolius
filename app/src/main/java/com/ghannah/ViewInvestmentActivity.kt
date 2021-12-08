@@ -1,16 +1,33 @@
 package com.ghannah
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class ViewInvestmentActivity : AppCompatActivity()
 {
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun _deleteInvestment()
+    {
+        val p : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+        if (null != p)
+        {
+            val i : Investment? = PortfoliusState.getCurrentlySelectedInvestment()
+            if (null != i)
+            {
+                p.removeInvestment(i)
+                finish()
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun showDetails()
     {
@@ -55,11 +72,28 @@ class ViewInvestmentActivity : AppCompatActivity()
         findViewById<Button>(R.id.buttonDeleteInvestment)
             .setOnClickListener {
 
-                val portfolio : Portfolio = PortfoliusState.getCurrentlySelectedPortfolio()!!
-                portfolio.removeInvestment(investment)
-                Notification.send(this, "Removed investment from portfolio")
+                val builder : AlertDialog.Builder = AlertDialog.Builder(this)
 
-                finish()
+                builder
+                    .setMessage(resources.getString(R.string.confirmation_delete_investment))
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                        dialog, id -> _deleteInvestment()
+//                        dialog, id -> {
+//                            val portfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+//                            if (null != portfolio)
+//                            {
+//                                portfolio.removeInvestment(investment)
+//                                Notification.send(this, "Deleted investment")
+//                                finish()
+//                            }
+//                    }
+                    })
+                    .setNegativeButton("No", DialogInterface.OnClickListener {
+                        dialog, id -> { }
+                    })
+
+                builder.create().show()
             }
 
         findViewById<Button>(R.id.buttonEditInvestment)
@@ -88,6 +122,6 @@ class ViewInvestmentActivity : AppCompatActivity()
     override fun onRestart()
     {
         super.onRestart()
-        //showDetails()
+        showDetails()
     }
 }

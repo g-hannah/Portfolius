@@ -77,19 +77,12 @@ class ViewInvestmentsActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.view_investments)
-
         showInvestments()
     }
 
     override fun onRestart()
     {
         super.onRestart()
-
-//        val selectedPortfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
-//
-//        if (null == selectedPortfolio)
-//            finish()
-
         showInvestments()
     }
 }

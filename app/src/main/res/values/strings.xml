@@ -17,6 +17,8 @@
     <string name="textViewFont">sans-serif-black</string>
     <string name="investment_view_format_string">%s : £%+.2f</string>
     <string name="investment_list_label_format_string">Investments for currency %s</string>
+    <string name="confirmation_delete_investment">Are you sure you want to delete this investment?</string>
+    <string name="confirmation_delete_portfolio">Are you sure you want to delete this portfolio?</string>
 
     <string name="no_portfolios_string">No portfolios! Use the button below to create one!</string>
     <string name="no_investments_string">No investments! Use the button below to add one!</string>

@@ -32,9 +32,9 @@ class SoldInvestmentActivity : AppCompatActivity()
                         val f : Double = fee!!
                         val net : Double = (inv.getAmount() * r) - inv.getCost() - f
 
-                        PortfoliusState.addToTotalGainOrLoss(net)
-                        PortfoliusState.unsetSelectedInvestment()
                         portfolio.removeInvestment(inv)
+                        PortfoliusState.addToTotalGainOrLoss(net)
+                        //PortfoliusState.unsetSelectedInvestment()
 
                         Notification.send(this, "Investment sold!")
                         finish()
