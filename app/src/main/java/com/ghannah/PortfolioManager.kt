@@ -98,6 +98,35 @@ object PortfolioManager : AppCompatActivity()
         }
     }
 
+    fun editInvestment(inv : Investment, amount : Double, rate : Double, fee : Double)
+    {
+        for (p in portfolios)
+        {
+            val map : MutableMap<String,MutableList<Investment>> = p.getInvestments()
+
+            for (key in map.keys)
+            {
+                val list : MutableList<Investment>? = map[key]
+                if (null != list)
+                {
+                    for (i in list)
+                    {
+                        if (i.equals(inv))
+                        {
+                            i.setAmount(amount)
+                            i.setRate(rate)
+                            i.setFee(fee)
+
+                            write()
+
+                            return
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * private helper function to check if a portfolio
      * with the given name already exists

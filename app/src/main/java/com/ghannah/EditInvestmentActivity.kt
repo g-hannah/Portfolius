@@ -53,26 +53,13 @@ class EditInvestmentActivity : AppCompatActivity()
                 }
 
                 portfolio.editInvestment(inv, amount, rate, fee)
-//                inv._amount = amount
-//                inv._rate = rate
-//                inv._fee = fee
-//
-//                PortfolioManager.write()
-
-//                val message = "Adding investment: amount $amount, rate $rate, fee $fee, currency $selectedCurrency"
-//
-//                Notification.send(
-//                    this,
-//                    message)
-
-//                val portfolioName : String = portfolio._name
-
-//                portfolio.replaceInvestment(inv)
 
                 Notification.send(
                     this,
                     "Successfully modified investment " + inv.getId()
                 )
+
+                finish()
             }
     }
 }

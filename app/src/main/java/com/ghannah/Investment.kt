@@ -46,14 +46,29 @@ class Investment(
         return this.amount
     }
 
+    fun setAmount(value : Double)
+    {
+        this.amount = value
+    }
+
     fun getRate() : Double
     {
         return this.rate
     }
 
+    fun setRate(value : Double)
+    {
+        this.rate = value
+    }
+
     fun getFee() : Double
     {
         return this.fee
+    }
+
+    fun setFee(value : Double)
+    {
+        this.fee = value
     }
 
     fun getId() : String

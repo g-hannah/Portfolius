@@ -17,9 +17,7 @@ import kotlinx.coroutines.selects.select
 
 class ViewPortfolioActivity : AppCompatActivity()
 {
-    private var state : Bundle? = null
     private var selectedCurrency : String? = null
-    private var confirmationDelete : Int = 0
     /**
      * Help function to display the investments
      * for the currently selected portfolio

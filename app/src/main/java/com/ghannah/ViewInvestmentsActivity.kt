@@ -8,13 +8,12 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
 
 class ViewInvestmentsActivity : AppCompatActivity()
 {
-    override fun onCreate(savedInstanceState : Bundle?)
+    private fun showInvestments()
     {
-        super.onCreate(savedInstanceState)
-
         val selectedCurrency : String? = PortfoliusState.getCurrentlySelectedInvestmentCurrency()
 
         if (null == selectedCurrency)
@@ -27,11 +26,9 @@ class ViewInvestmentsActivity : AppCompatActivity()
 
         if (null == selectedPortfolio)
         {
-            Notification.error(this, "No portfolio selected (onCreate() in ViewInvestmentsActivity)")
+            Notification.error(this, "No portfolio selected (ViewInvestmentsActivity)")
             finish()
         }
-
-        setContentView(R.layout.view_investments)
 
         val res = applicationContext.resources
         findViewById<TextView>(R.id.textViewPortfolioNameViewInvestments).text = selectedPortfolio!!._name
@@ -46,12 +43,17 @@ class ViewInvestmentsActivity : AppCompatActivity()
             //finish()
         }
 
+        if (0 < ll!!.size)
+        {
+            ll.removeAllViews()
+        }
+
         val buttonInvestmentMapping : MutableMap<Button,Investment> = mutableMapOf<Button,Investment>()
 
         for (investment in list)
         {
-          //  val buttonStyle : Int = R.style.Button_Investment
-          //  val ctw : ContextThemeWrapper = ContextThemeWrapper(this, buttonStyle)
+            //  val buttonStyle : Int = R.style.Button_Investment
+            //  val ctw : ContextThemeWrapper = ContextThemeWrapper(this, buttonStyle)
             val button : Button = Button(this)
 
             button.setBackgroundColor(0xffff88)
@@ -70,19 +72,24 @@ class ViewInvestmentsActivity : AppCompatActivity()
         }
     }
 
+    override fun onCreate(savedInstanceState : Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.view_investments)
+
+        showInvestments()
+    }
+
     override fun onRestart()
     {
         super.onRestart()
 
-        val selectedPortfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+//        val selectedPortfolio : Portfolio? = PortfoliusState.getCurrentlySelectedPortfolio()
+//
+//        if (null == selectedPortfolio)
+//            finish()
 
-        if (null == selectedPortfolio)
-            finish()
-
-        val selectedCurrency : String? = PortfoliusState.getCurrentlySelectedInvestmentCurrency()
-        val list : MutableList<Investment> = selectedPortfolio!!.getInvestments()[selectedCurrency]!!
-
-        if (0 == list.size)
-            finish()
+        showInvestments()
     }
 }

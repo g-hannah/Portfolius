@@ -12,22 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 class ViewInvestmentActivity : AppCompatActivity()
 {
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun onCreate(savedInstanceState : Bundle?)
+    private fun showDetails()
     {
-        super.onCreate(savedInstanceState)
-
-        val ctx : Context = this
         val inv : Investment? = PortfoliusState.getCurrentlySelectedInvestment()
 
         if (null == inv)
         {
-            Notification.error(ctx, "No investment is selected")
+           // Notification.error(this, "No investment is selected")
             finish()
         }
 
         val investment : Investment = inv!!
-
-        setContentView(R.layout.view_investment)
 
         val fmt : String = "£%.2f"
 
@@ -62,7 +57,7 @@ class ViewInvestmentActivity : AppCompatActivity()
 
                 val portfolio : Portfolio = PortfoliusState.getCurrentlySelectedPortfolio()!!
                 portfolio.removeInvestment(investment)
-                Notification.send(ctx, "Removed investment from portfolio")
+                Notification.send(this, "Removed investment from portfolio")
 
                 finish()
             }
@@ -70,22 +65,29 @@ class ViewInvestmentActivity : AppCompatActivity()
         findViewById<Button>(R.id.buttonEditInvestment)
             .setOnClickListener {
 
-                startActivity(Intent(ctx, EditInvestmentActivity::class.java))
+                startActivity(Intent(this, EditInvestmentActivity::class.java))
             }
 
         findViewById<Button>(R.id.buttonInvestmentMarkAsSold)
             .setOnClickListener {
 
-                startActivity(Intent(ctx, SoldInvestmentActivity::class.java))
+                startActivity(Intent(this, SoldInvestmentActivity::class.java))
             }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState : Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.view_investment)
+        showDetails()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onRestart()
     {
         super.onRestart()
-
-        if (null == PortfoliusState.getCurrentlySelectedInvestment())
-            finish()
+        //showDetails()
     }
 }

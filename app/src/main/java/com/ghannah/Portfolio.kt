@@ -144,11 +144,7 @@ class Portfolio(var _name : String)
     @RequiresApi(Build.VERSION_CODES.N)
     fun editInvestment(inv : Investment, amount : Double, rate : Double, fee : Double)
     {
-        inv._amount = amount
-        inv._rate = rate
-        inv._fee = fee
-
-        PortfolioManager.write()
+        PortfolioManager.editInvestment(inv, amount, rate, fee)
     }
 
     /**
