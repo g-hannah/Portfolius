@@ -3,6 +3,7 @@ package com.ghannah
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
@@ -22,13 +23,26 @@ class SoldInvestmentActivity : AppCompatActivity()
                 val inv : Investment? = PortfoliusState.getCurrentlySelectedInvestment()
                 if (null != portfolio && null != inv)
                 {
-                    PortfoliusState.addToTotalGainOrLoss(inv.net())
-                    portfolio.removeInvestment(inv)
+                    val rate : Double? = findViewById<EditText>(R.id.editTextDecimalRateValue).text.toString().toDoubleOrNull()
+                    val fee : Double? = findViewById<EditText>(R.id.editTextDecimalFeeValue).text.toString().toDoubleOrNull()
 
-                    PortfoliusState.unsetSelectedInvestment()
+                    if (null != rate && null != fee)
+                    {
+                        val r : Double = rate!!
+                        val f : Double = fee!!
+                        val net : Double = (inv.getAmount() * r) - inv.getCost() - f
 
-                    Notification.send(this, "Investment marked as sold!")
-                    finish()
+                        PortfoliusState.addToTotalGainOrLoss(net)
+                        portfolio.removeInvestment(inv)
+                        PortfoliusState.unsetSelectedInvestment()
+
+                        Notification.send(this, "Investment sold!")
+                        finish()
+                    }
+                    else
+                    {
+                        Notification.error(this, "Invalid values")
+                    }
                 }
             }
 

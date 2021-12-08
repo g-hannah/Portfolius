@@ -89,27 +89,6 @@ class PortfolioTest
 //    }
 
     /**
-     * Test if the correct net value is
-     * calculated for a given rate.
-     */
-    @Test
-    fun test_forGivenRateCorrectNetValueIsCalculated()
-    {
-        val otherMockRate : Double = 25000.0
-        val rate = Rate(otherMockRate, System.currentTimeMillis())
-
-        val paid1 : Double = amount1 * rate1 + fee1
-        val valueNow1 : Double = amount1 * mockRate
-        val paid2 : Double = amount2 * rate2 + fee2
-        val valueNow2 : Double = amount2 * mockRate
-
-        val netForRate : Double = ((amount1 * otherMockRate) - paid1) + ((amount2 * otherMockRate) - paid2)
-        val netNow : Double = (valueNow1 - paid1) + (valueNow2 - paid2)
-
-        assertEquals(netNow - netForRate, netNow - portfolio.netForRate(rate), 0.01)
-    }
-
-    /**
      * Test that the correct net change
      * in value is calculated
      */
