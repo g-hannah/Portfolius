@@ -128,10 +128,8 @@ object ExchangeRatesManager
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    public suspend fun start()
+    public fun start()
     {
-        return
-
         val currencies : MutableList<String> = _get_available_currencies();
 
         for (currency in currencies)
@@ -145,15 +143,11 @@ object ExchangeRatesManager
                 val rate : Rate? = _get_rate(currency)
                 if (null != rate)
                 {
-                    mutex.lock()
-
                     list.add(rate!!)
-
-                    mutex.unlock()
                 }
             }
 
-            Thread.sleep(36050)
+            Thread.sleep(1000L * 60L * 60L)
         }
     }
 

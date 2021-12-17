@@ -237,15 +237,15 @@ class MainActivity : AppCompatActivity() {
         /*
             Start the exchange rates manager in separate thread of execution
          */
-//        CoroutineScope(Default).launch {
-//
-//            ExchangeRatesManager.start()
-//        }
+        CoroutineScope(Default).launch {
+
+            ExchangeRatesManager.start()
+        }
 
         PortfoliusState.setDataDirectory(applicationContext.filesDir.toString())
        // PortfolioManager.DATA_DIRECTORY = applicationContext.filesDir.toString()
         PortfolioManager.read()
-        setMockData()
+        //setMockData()
 
         /*
          * Read the portfolios into memory.
