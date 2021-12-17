@@ -18,7 +18,7 @@ object ExchangeRatesManager
 {
     //private val rates : MutableMap<String,Rate?> = mutableMapOf<String,Rate?>()
     private var rates : MutableMap<String,MutableList<Rate>> = mutableMapOf<String,MutableList<Rate>>()
-    private val server_ip : String = "192.168.0.16"
+    private val server_ip : String = "18.133.188.233"
     private val server_port : Short = 34567.toShort()
     private val sleep_time : Int = 360000 // 6 minutes
     private val mapper : ObjectMapper = ObjectMapper()
